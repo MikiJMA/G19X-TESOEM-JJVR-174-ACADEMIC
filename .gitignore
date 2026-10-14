@@ -1,0 +1,21 @@
+# Configuración y datos privados; publicar sólo las plantillas vacías.
+**/.env
+**/.env.*
+!**/.env.example
+**/.local/
+**/.tmp/
+**/.venv/
+**/.venv-roto/
+**/__pycache__/
+*.pyc
+**/node_modules/
+**/dist/
+/output/
+/tmp/
+*.dump
+*.db
+*.pbix
+*.abf
+*.pkl
+**/.pbi/
+**/*.log

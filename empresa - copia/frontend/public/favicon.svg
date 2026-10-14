@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <title>NexoCredit</title>
+  <rect width="48" height="48" rx="12" fill="#1e3a8a"/>
+  <g transform="translate(8 8)">
+    <path d="M8 24V8L24 24V8" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="8" cy="8" r="3" fill="white"/>
+    <circle cx="24" cy="24" r="3" fill="white"/>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+.venv/
+.venv-roto/
+.tmp/
+.local/
+__pycache__/
+*.pyc
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.db
+# Datos y preferencias locales de Power BI: versionar solo PBIP/PBIR/TMDL.
+*.pbix
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
+# Capturas locales sin depurar para un repositorio publico.
+docs/evidencias/**/*.jpg
+docs/evidencias/**/*.png
+# Artefacto AutoML binario sin uso local; la alternativa local usa JSON numérico verificado.
+backend/app/integraciones/prediccion_azure_ml/model.pkl

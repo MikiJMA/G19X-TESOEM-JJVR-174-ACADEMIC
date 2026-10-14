@@ -1,0 +1,15 @@
+.git
+.local
+.venv
+.venv-roto
+.tmp
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+**/.env
+**/.env.*
+docs
+output
+tmp
+backend/app/integraciones/prediccion_azure_ml/model.pkl

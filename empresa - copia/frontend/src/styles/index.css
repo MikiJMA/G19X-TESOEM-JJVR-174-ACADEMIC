@@ -1,0 +1,19 @@
+:root {
+  --font-numeric: 'Segoe UI', Arial, sans-serif;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: #203831;
+  background: #f5f7f6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+/* Ceros convencionales en cifras, controles y acceso, sin el glifo punteado. */
+:where(.enterprise-app, .access-screen, .session-bar),
+:where(.enterprise-app, .access-screen, .session-bar) * {
+  font-feature-settings: 'zero' 0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+button:focus-visible, input:focus-visible { outline: 3px solid #318674; outline-offset: 3px; }
+::selection { background: #c9e9dc; }
