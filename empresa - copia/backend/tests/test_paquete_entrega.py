@@ -76,6 +76,7 @@ class PaqueteEntregaTests(unittest.TestCase):
                     'modelo/entrenamiento.json', 'analitica/reporte.pbix.pbip',
                     'analitica/reporte.pbix.SemanticModel/definition/model.tmdl',
                     'infraestructura/contenedores_docker/inicializar_postgresql.sql',
+                    'infraestructura/contenedores_docker/nginx.conf',
                     'backend/app/persistencia_postgresql/migraciones/001_evaluaciones.sql',
                     str(paquete.BACKGROUND), 'frontend/public/favicon.svg')
         excluded = ('.env', '.env.privado', '.env.local', '.env.example.backup',
@@ -86,6 +87,7 @@ class PaqueteEntregaTests(unittest.TestCase):
                     'analitica/.pbi-respaldo/settings.json', 'modelo/model.pkl',
                     'modelo/modelo.pickle', 'base.dump', 'base.sql.gz', 'datos/prueba.csv',
                     'datos/dump.sql', 'backend/backup.sql', 'db.sql',
+                    'infraestructura/privado.conf', 'backend/credenciales.conf',
                     'reporte.pbix', 'reporte.abf', 'docs/evidencias/dashboard.jpg',
                     'docs/evidencias/dashboard.png', 'frontend/public/captura.png')
         for path in included:
@@ -175,6 +177,7 @@ class PaqueteEntregaTests(unittest.TestCase):
             self.assertIn('NexoCredit/.github/workflows/ci.yml', names)
             self.assertIn('NexoCredit/NexoCredit.code-workspace', names)
             self.assertIn('NexoCredit/LEEME_PRIMERO.md', names)
+            self.assertIn('NexoCredit/empresa - copia/infraestructura/contenedores_docker/nginx.conf', names)
             for file in manifest['archivos']:
                 data = archive.read(file['ruta'])
                 self.assertEqual(file['sha256'], hashlib.sha256(data).hexdigest())
@@ -206,6 +209,12 @@ class PaqueteEntregaTests(unittest.TestCase):
         (self.project / 'backend/app/integraciones/prediccion_local/artefactos/modelo.json').unlink()
         with self.assertRaises(paquete.EntregaError):
             paquete.crear_paquete(self.outer, self.project, 'incompleto')
+        self.assertFalse((self.outer / 'output').exists())
+
+    def test_validacion_rechaza_entrega_sin_configuracion_nginx(self):
+        (self.project / 'infraestructura/contenedores_docker/nginx.conf').unlink()
+        with self.assertRaises(paquete.EntregaError):
+            paquete.crear_paquete(self.outer, self.project, 'sin_nginx')
         self.assertFalse((self.outer / 'output').exists())
 
     def test_workspace_ci_y_raiz_activa_deben_ser_relativos(self):

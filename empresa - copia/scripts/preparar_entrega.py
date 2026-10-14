@@ -47,6 +47,7 @@ REQUIRED_PROJECT = frozenset({
     'infraestructura/contenedores_docker/docker-compose.yml',
     'infraestructura/contenedores_docker/backend.Dockerfile',
     'infraestructura/contenedores_docker/frontend.Dockerfile',
+    'infraestructura/contenedores_docker/nginx.conf',
     'infraestructura/contenedores_docker/.env.example',
     'scripts/docker.ps1', 'scripts/modo-local.ps1', 'scripts/crear_usuario_local.py',
     'backend/app/integraciones/prediccion_local/artefactos/modelo.json',
@@ -110,6 +111,9 @@ def permitir_archivo(ruta):
         return relative == BACKGROUND
     if relative.suffix.casefold() == '.svg':
         return relative.parts[0] == 'frontend'
+    if relative.suffix.casefold() == '.conf':
+        # Únicamente esta configuración pública; no incluir otros .conf privados.
+        return relative == PurePosixPath('infraestructura/contenedores_docker/nginx.conf')
     if relative.suffix.casefold() == '.sql':
         # No empaquetar un dump de texto por tener la misma extensión que SQL fuente.
         return (relative in {PurePosixPath('infraestructura/contenedores_docker/inicializar_postgresql.sql'),
