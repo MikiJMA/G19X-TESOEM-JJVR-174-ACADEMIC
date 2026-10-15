@@ -1,8 +1,24 @@
 # Operación y soporte — demostración local
 
-Actualización documental: 04/10/2026. Refleja código y pruebas existentes; no implica una nueva ejecución ni aceptación empresarial. Ver [evidencias](../evidencias/README.md) y [pendientes de entrega](../entrega/ENTREGA_DEMO.md).
+Actualización documental: 15/10/2026. Los recorridos antiguos conservan sus fechas; no equivalen a una ejecución nueva ni aceptación empresarial. Ver [evidencias](../evidencias/README.md) y [pendientes de entrega](../entrega/ENTREGA_DEMO.md).
 
-## Operación vigente — actualización del 11/10/2026
+## Recorrido vigente y segunda opinión — 15/10/2026
+
+Instalación: seguir el [README de la raíz pública](../../../README.md), con código activo en `nexocredit/`. Puede usarse cuenta local propia, documentos locales y modelo scikit-learn sin consumir Azure; Azure/Entra y sus campos de configuración siguen disponibles. No hay contraseña predeterminada ni comprobación nueva de suscripción Azure por publicar este manual.
+
+1. Abrir `http://localhost:8080/`, iniciar sesión y usar exclusivamente datos ficticios. Para el ejemplo principal: identificador `AAAA010101AA1`, ingresos 30000, gastos 10000, deuda/pagos/atraso 0 y score 700. No usar cero para sustituir datos desconocidos; aquí son ceros intencionales del ejemplo.
+2. Pulsar «Evaluar escenario» y comprobar **guardado**, margen 20000 y riesgo **Bajo** bajo `reglas-demo-v2`. La regla actual elige el mayor riesgo de score y margen, conforme al [manual de reglas](REGLAS_RIESGO_DEMO.md). Los registros históricos v1 conservan su resultado.
+3. En el mismo resultado, abrir **«Segunda opinión IA (académica)»**. Su bloque «Reglas demo» corresponde al registro guardado; «Modelo académico» corresponde a otro escenario, UCI/Taiwán 2005 con importes NTD. **No evalúa la identidad ni los importes MXN del solicitante.**
+4. Expandir «Capturar las 19 variables UCI del escenario ficticio» y pulsar «Cargar ejemplo UCI ficticio», o completar las 19 entradas independientes. Ese botón sólo llena el formulario: no consulta ni guarda. Revisar unidades/códigos y pulsar «Consultar segunda opinión» para ejecutar el proveedor disponible.
+5. Revisar clase («Incumplimiento» o «No incumplimiento»), origen/modelo y advertencias. No son Bajo/Medio/Alto ni una probabilidad calibrada. La comparación lleva `guardada: false`; no queda en el expediente, no cambia revisiones, reglas, dashboard o Power BI y se pierde al cambiar de evaluación o recargar.
+
+`LIMIT_BAL` es límite de crédito; `PAY_0` y `PAY_2…6` son códigos de estado de pago −2…9, no días de atraso; `BILL_AMT1…6` son saldos (admiten negativos); `PAY_AMT1…6` son pagos no negativos. Se exigen exactamente 19 enteros int32, con límite positivo. No copiar o convertir ingresos, deudas o atrasos MXN de la solicitud para completar estas variables.
+
+El estado del modelo distingue configuración de consulta real. «Volver a comprobar proveedor» revisa el estado, no genera inferencia. Con `ML_PROVEEDOR=local`, el artefacto scikit-learn incluido no necesita Ollama, keys ni red; con `azure`, la consulta explícita puede generar consumo y requiere recursos/credenciales vigentes. `deshabilitado` o fallo no se sustituyen automáticamente por otro proveedor. Un error deja intacta la evaluación guardada; no pulsar repetidamente para intentar forzar un resultado.
+
+Contrato técnico: `POST /api/v1/evaluaciones/{identificador}/segunda-opinion` exige sesión autorizada, UUID existente y cuerpo `{"valores": {…19 variables UCI…}}`, sin campos adicionales. Devuelve el riesgo/versión guardados y `modelo`, no persiste sus entradas/salida. 401 indica falta de sesión; 422, entrada/UUID inválidos; 404, evaluación ausente; 503, base o modelo no disponibles; 502/504, respuesta o espera del proveedor remoto. [Arquitectura y contrato](../desarrollo/ARQUITECTURA_Y_DATOS.md).
+
+## Base operativa del 11/10/2026 — complementada por el recorrido anterior
 
 Se conserva abajo el recorrido histórico de octubre 4. Para la versión actual, esta sección y los manuales enlazados prevalecen sobre las menciones de acceso sólo Microsoft, texto sólo en memoria, datos siempre libres o ausencia total de alertas.
 
@@ -15,7 +31,7 @@ Se conserva abajo el recorrido histórico de octubre 4. Para la versión actual,
 
 Datos de trabajo y backups siguen privados. No borrar volúmenes para resolver fallos y no copiar `.env`, dumps o cachés de Power BI al entregar. Las integraciones/evidencias históricas Azure no garantizan disponibilidad actual.
 
-## Manual de usuario del prototipo
+## Manual de usuario histórico — recorrido del 04/10/2026
 
 Acceso: abrir [localhost:8080](http://localhost:8080/) y pulsar «Iniciar sesión con Microsoft». Introducir la contraseña solo en Microsoft. Se requiere cuenta autorizada del tenant configurado, ámbito access_as_user y rol Analista o Administrador. Ambos roles tienen el mismo acceso funcional actual. La interfaz comprueba la identidad contra FastAPI; mostrar el login no sustituye la validación del servidor. No compartir tokens ni claves. Si la sesión vence, volver a iniciar sesión; 403 indica permisos insuficientes. No desactivar controles para resolver un fallo.
 

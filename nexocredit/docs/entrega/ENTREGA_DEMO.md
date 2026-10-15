@@ -1,6 +1,14 @@
 # Entrega de demostración — NexoCredit
 
-## Corte vigente de preparación — 14/10/2026
+## Incremento de la copia académica - 15/10/2026
+
+La copia de entrega usa ahora `nexocredit/` y Compose `nexocredit-demo`, con rutas CI/lanzadores/workspace y empaquetado actualizados. El [README principal](../../../README.md) ofrece instalación y recorrido de cuatro pasos, procedencia del historial y declaración de asistencia de Codex.
+
+En el resultado guardado se consulta opcionalmente el modelo con **19 variables UCI ficticias independientes**. No se convierten importes MXN, no se atribuye el escenario al solicitante mexicano y no se recalculan o persisten sus resultados. Las reglas demo y los registros históricos se conservan.
+
+Verificación local final: **211 backend/PostgreSQL y 146 frontend**, cinco archivos PowerShell, lint/build y npm audit sin vulnerabilidades reportadas. [Evidencia del incremento](../evidencias/2026-10-15/mejoras-evaluacion-academica.md). Se trabajó sólo en la copia académica; por decisión del usuario no se subió esta rama ni se ejecutó CI remota. Los cortes del entorno de desarrollo descritos a continuación son históricos y no representan la base de esta copia limpia.
+
+## Corte histórico de preparación — 14/10/2026
 
 Entrega **local** del entorno existente; no se publica la aplicación, instala para terceros, convoca reuniones o contacta al asesor. Este documento es una guía de revisión, no un acta de aceptación ni una capacitación realizada. Se conservan las evidencias anteriores con sus fechas.
 
@@ -31,13 +39,13 @@ Las cifras de filas, métricas de modelo, conteos de suites y tiempos del aparta
 
 Se generó/revisó un candidato real de 339 archivos: CRC, SHA-256 del ZIP y cada miembro, exclusiones, redacción y huella del modelo correctos. [CI del commit de implementación](../evidencias/2026-10-14/github-actions.md) aprobó 197/129 en ambos trabajos. También aprobó la restauración aislada del respaldo de doce tablas, sin modificar la base original. El ZIP final se entrega con manifiesto propio; sus cantidades y huellas pueden cambiar al incorporar esta documentación. No confundir el hash del candidato con el final.
 
-Desde la carpeta interior `empresa - copia/`, con Python disponible:
+Desde la carpeta interior `nexocredit/`, con Python disponible:
 
 ```powershell
 python .\scripts\preparar_entrega.py --nombre NexoCredit_Entrega_2026-10-14
 ```
 
-El generador usa sólo la biblioteca estándar. Si `python` no corresponde al entorno previsto, usa el ejecutable Python propio configurado para el proyecto. El nombre no admite rutas y las salidas se crean sin sobrescribir en `output/entregas/` de la **raíz exterior**: ZIP y manifiesto JSON con rutas, tamaños, SHA-256 de cada archivo y del ZIP y Git SHA de referencia. Se conserva el wrapper `NexoCredit/empresa - copia/`, `.github` y el workspace para no romper las rutas de CI. Un Git SHA de referencia no acredita un árbol limpio o una CI nueva.
+El generador usa sólo la biblioteca estándar. Si `python` no corresponde al entorno previsto, usa el ejecutable Python propio configurado para el proyecto. El nombre no admite rutas y las salidas se crean sin sobrescribir en `output/entregas/` de la **raíz exterior**: ZIP y manifiesto JSON con rutas, tamaños, SHA-256 de cada archivo y del ZIP y Git SHA de referencia. Se conserva el wrapper `NexoCredit/nexocredit/`, `.github` y el workspace para no romper las rutas de CI. Un Git SHA de referencia no acredita un árbol limpio o una CI nueva.
 
 La copia excluye credenciales, `.env` privados, base/dumps, dependencias instaladas, imágenes Docker, modelos Ollama, CSV UCI, PBIX/ABF y capturas privadas. Incluye el modelo numérico local scikit-learn y sus metadatos; redacta la identificación del plan sólo en la copia y sustituye la ficha privada del alumno por un marcador. No modifica la fuente ni exporta datos de trabajo. La revisión humana sigue siendo necesaria si alguien hubiese pegado un secreto en un archivo público.
 

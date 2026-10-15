@@ -1,5 +1,9 @@
 # Índice de evidencias
 
+## Mejoras de la copia académica - 15/10/2026
+
+[Reorganización y segunda opinión en evaluación](2026-10-15/mejoras-evaluacion-academica.md): carpeta `nexocredit/`, Compose propio, README corto, procedencia y uso de IA; modelo UCI independiente junto a reglas guardadas. Suite local final **211 backend y 146 frontend**, cinco pruebas PowerShell, lint/build y npm audit sin vulnerabilidades reportadas. Cambios conservados sólo localmente por elección del usuario; sin push ni nueva CI remota.
+
 ## Preparación de entrega — 14/10/2026
 
 [GitHub Actions actual](2026-10-14/github-actions.md): commit e9e3c0c, ejecución 38649003430, trabajos backend/frontend aprobados y conteos 197/129 verificados en logs. Código en la rama autorizada, sin modificar main ni desplegar.

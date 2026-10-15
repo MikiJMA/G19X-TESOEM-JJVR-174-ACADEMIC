@@ -1,5 +1,13 @@
 # Tecnologías obligatorias del proyecto
 
+## Incremento de segunda opinión — 15/10/2026
+
+Python/FastAPI y React incorporan en el resultado principal una **segunda opinión académica opcional** del proveedor ML explícito, local scikit-learn o Azure ML. El usuario aporta un escenario UCI ficticio adicional de 19 enteros, con importes NTD; no se convierten ni reutilizan los ingresos/deudas/atrasos MXN o la identidad del solicitante. El modelo aparece junto a las reglas, pero no constituye una predicción válida de ese solicitante mexicano ni una probabilidad calibrada.
+
+`POST /api/v1/evaluaciones/{identificador}/segunda-opinion` requiere `usuario_actual`, reutiliza validación UCI estricta y comprueba que la evaluación exista en PostgreSQL antes de inferir. Retorna categoría/versión guardadas, contrato del modelo, advertencia y `guardada: false`. No recalcula registros `reglas-demo-v1`/`reglas-demo-v2`, no guarda entradas/salida ni cambia revisiones, dashboard o Power BI; no requiere nueva migración. Los errores no generan predicciones ficticias o cambio automático de proveedor.
+
+Se conservan **Python, FastAPI, React.js, Azure OpenAI Service, Azure Machine Learning, Azure AI Search, PostgreSQL, Power BI, Docker, GitHub Actions, Microsoft Entra ID, APIs financieras y Scrum**. Azure conserva adaptadores implementados, campos privados de configuración y evidencias fechadas; no se afirma disponibilidad o suscripción actual. Esta nota documenta el incremento, no acredita una nueva suite completa, CI, llamada cloud, aceptación o ceremonia Scrum. [Operación vigente](docs/manuales/OPERACION.md), [requisitos PRD-RF16](docs/producto/PRD_NEXOCREDIT.md) y [arquitectura](docs/desarrollo/ARQUITECTURA_Y_DATOS.md).
+
 Corte de preparación del 14/10/2026: [entrega y verificaciones actuales](docs/evidencias/2026-10-14/entrega-demo.md). Suite local final 197 backend/PostgreSQL y 129 frontend aprobada; el código Azure/Entra y sus plantillas de configuración permanecen. Las alternativas locales no sustituyen requisitos ni una prueba histórica certifica conectividad o suscripción actual.
 
 Por indicación del alumno, el sistema final debe utilizar todas las tecnologías siguientes. Este requisito sustituye la interpretación anterior de que eran opcionales. Crear una carpeta no significa que su integración esté implementada.

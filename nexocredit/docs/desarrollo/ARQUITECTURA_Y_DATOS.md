@@ -1,6 +1,6 @@
 # Arquitectura y datos — NexoCredit
 
-Corte funcional: 11/10/2026. Documento técnico vigente de la demo local; conserva las evidencias históricas Azure/Power BI, no certifica producción ni datos crediticios oficiales.
+Corte documental: 15/10/2026, con línea base funcional y evidencias fechadas desde el 11/10/2026. La segunda opinión añade inferencia académica junto al resultado, no scoring predictivo mexicano. Se conservan las evidencias históricas Azure/Power BI; no certifican servicios vigentes, producción ni datos crediticios oficiales.
 
 ## Componentes y responsabilidades
 
@@ -9,10 +9,11 @@ Navegador React → Nginx /api → FastAPI → PostgreSQL
                    identidad ├─ Microsoft Entra (MSAL/JWT)
                              └─ Cuenta local (scrypt/JWT, revocación en DB)
 FastAPI por función
-  evaluación principal → reglas-demo-v1 (margen y score capturado)
+  evaluación principal → reglas-demo-v2; registros v1 conservados sin recálculo
+    segunda opinión opcional → escenario UCI independiente → scikit-learn local o Azure ML
   explicación → Azure OpenAI u Ollama o plantilla sin IA
   documentos → Azure AI Search o búsqueda literal local
-  laboratorio UCI → Azure ML; local deshabilitado, sin predicción inventada
+  laboratorio UCI → mismo proveedor ML explícito (local / Azure / deshabilitado)
   economía pública → Banxico y Banco Mundial
   seguimiento → cuotas/abonos, cálculos exactos, alertas y eventos
 PostgreSQL → vista limitada reportes.evaluaciones_powerbi → Power BI Desktop
@@ -20,7 +21,25 @@ Docker Compose → frontend/backend/migraciones/postgres
 GitHub Actions → suites y construcción, sin publicación automática
 ```
 
-Azure/Entra continúan implementados y obligatorios según el proyecto. Las alternativas locales permiten continuidad, no eliminan esos requisitos ni acreditan conectividad Azure actual. Datos de solicitante, pagos y motivos no se envían a proveedores financieros, al modelo de explicación ni al laboratorio UCI.
+Azure/Entra continúan implementados y obligatorios según el proyecto. Las alternativas locales permiten continuidad, no eliminan esos requisitos ni acreditan conectividad Azure actual. Identificadores del solicitante, comentarios y motivos de revisión no se envían a los proveedores financieros, explicativos o predictivos. La explicación recibe los hechos financieros permitidos; la inferencia recibe sólo las 19 variables del escenario UCI independiente, nunca una conversión de la solicitud MXN.
+
+## Segunda opinión en la evaluación — 15/10/2026
+
+`SegundaOpinionModelo` / `PanelSegundaOpinion` presentan, tras el guardado, la categoría y versión originales junto a una clase del modelo académico. Las 19 entradas son independientes: `LIMIT_BAL`, `PAY_0`, `PAY_2…6`, `BILL_AMT1…6` y `PAY_AMT1…6`. Son enteros int32; límite positivo, pagos no negativos y estados de pago de −2 a 9. El usuario captura o carga un ejemplo ficticio UCI; cargarlo no consulta. No se incluyen datos demográficos, RFC/CURP, ingresos o deuda MXN del solicitante.
+
+La API `POST /api/v1/evaluaciones/{identificador}/segunda-opinion`, en `backend/app/rutas_api/segunda_opinion.py`, exige `Depends(usuario_actual)` y reutiliza `EscenarioUCI`. El flujo es: validar UUID/cuerpo → leer evaluación existente mediante repositorio → seleccionar el proveedor ML explícito → inferir → devolver comparación temporal. La lectura de PostgreSQL se ejecuta en threadpool; no hay transacción de escritura ni llamada IA durante una operación de pago. Un UUID ausente produce 404 antes de inferir; UUID/cuerpo inválido, 422; base sin configurar/inaccesible, 503. Se conservan los errores del proveedor, sin predicción inventada ni fallback automático.
+
+| Campo de respuesta | Procedencia y significado |
+|---|---|
+| `evaluacion_id` | UUID solicitado y encontrado en PostgreSQL |
+| `riesgo_por_reglas`, `version_reglas` | Valores del registro original, sin ejecutar de nuevo `scoring.py` |
+| `modelo` | Contrato existente del proveedor: clase booleana `incumplimiento_predicho`, origen, proveedor, modelo configurado y advertencias; metadatos locales según corresponda |
+| `guardada` | Siempre `false`: ni las entradas UCI ni esta comparación se guardan |
+| `advertencia` | Escenario UCI/NTD independiente, sin validación para México ni decisión crediticia |
+
+La respuesta exitosa lleva `Cache-Control: no-store`. No se añade tabla, columna o migración, ni se modifica resultado JSONB v1/v2, revisiones, dashboard o vista Power BI. La interfaz descarta resultados de otro UUID/versión o proveedor y limpia la comparación al cambiar su contexto. El estado `GET /api/v1/ml/estado` sólo describe configuración; una etiqueta configurada no verifica la identidad del modelo remoto servido.
+
+**Límite:** la presentación conjunta conecta el modelo con el recorrido de demostración, no con los datos financieros del solicitante. Ambos resultados corresponden a escenarios distintos, no son dos estimaciones validadas de su riesgo. El modelo local conserva artefacto SHA-256 y algoritmo, UCI/Taiwán 2005 e importes NTD; no publica probabilidad calibrada. El proveedor Azure permanece implementado con sus evidencias históricas y campos privados, sin acreditar conectividad o suscripción actual por esta actualización documental.
 
 ## Contratos y límites de confianza
 
