@@ -4,7 +4,7 @@ import { importe, valorCapturado } from './metricasEscenario.mjs'
 import { esEvaluacion } from '../servicios/contratos.mjs'
 const riskClasses = { Bajo: 'risk-low', Medio: 'risk-medium', Alto: 'risk-high' }
 
-export default function EvaluationResult({ result, busy, submitted, explicacion }) {
+export default function EvaluationResult({ result, busy, submitted, explicacion, segundaOpinion }) {
   if (result && !esEvaluacion(result, false)) return <section className="card" aria-label="Resultado del análisis"><p role="alert" className="error">No se puede mostrar un resultado con formato inválido. Vuelve a consultar; no se inventó una clasificación.</p></section>
   const captured = name => valorCapturado(result, submitted, name)
   const score = captured('score_buro_actual')
@@ -23,6 +23,7 @@ export default function EvaluationResult({ result, busy, submitted, explicacion 
         <p className="enterprise-risk-disclaimer">Probabilidad de incumplimiento no disponible. Las reglas demo no calculan probabilidades ni sustituyen la revisión humana.</p>
       </div>
     </div>
+    {result?.guardado && result?.id && !busy && segundaOpinion}
     {result?.guardado && result?.id && !busy && <Explicacion estado={explicacion} />}
   </section>
 }

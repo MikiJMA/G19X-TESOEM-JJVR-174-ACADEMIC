@@ -4,6 +4,7 @@ import { evaluarCredito } from './evaluacion_crediticia/servicios/creditApi'
 import EvaluationForm from './evaluacion_crediticia/componentes/EvaluationForm'
 import RevisarIdentidad from './evaluacion_crediticia/componentes/RevisarIdentidad'
 import EvaluationResult from './evaluacion_crediticia/componentes/EvaluationResult'
+import SegundaOpinionModelo from './evaluacion_crediticia/componentes/SegundaOpinionModelo'
 import EvaluationHistory from './evaluacion_crediticia/componentes/EvaluationHistory'
 import Dashboard from './dashboard/Dashboard'
 import AzureMLDemo from './azure_ml/AzureMLDemo'
@@ -18,6 +19,7 @@ import { UsuarioContext } from './autenticacion/contexto'
 import './styles/Enterprise.css'
 import './styles/ScoreAyuda.css'
 import './styles/Identidad.css'
+import './styles/SegundaOpinion.css'
 import EstadoProveedores from './interfaz/EstadoProveedores'
 import SeguimientoCreditos from './seguimiento_crediticio/SeguimientoCreditos'
 import ResumenInicio from './interfaz/ResumenInicio'
@@ -106,7 +108,8 @@ export default function App() {
       <IndicadoresEscenario result={result} submitted={submitted} />
       <div className="workspace" id="evaluacion">
         <EvaluationForm form={form} busy={busy} error={error} change={change} submit={submit} identidad={<RevisarIdentidad rfc={form.rfc} bloqueado={busy} />} />
-        <EvaluationResult result={result} busy={busy} submitted={submitted} explicacion={explicacion} />
+        <EvaluationResult result={result} busy={busy} submitted={submitted} explicacion={explicacion}
+          segundaOpinion={result?.guardado && result?.id && !busy ? <SegundaOpinionModelo key={result.id} evaluacion={result} /> : null} />
       </div>
       <div id="historial"><EvaluationHistory revision={revision} /></div>
       <SeguimientoCreditos activo={seccion === 'creditos'} revision={revision}/>
