@@ -1,89 +1,44 @@
-# LEEME PRIMERO — NexoCredit, entrega local
+# Instalación local — NexoCredit
 
-Esta copia contiene código y documentación pública depurada, no una base de datos,
-cuentas, secretos, imágenes Docker, dependencias instaladas, datasets UCI o modelos
-Ollama. No es un instalador offline/autocontenido ni una aplicación ya publicada.
-Los hashes verifican integridad respecto del manifiesto; no son firma digital ni
-certifican ausencia de secretos pegados accidentalmente en archivos públicos.
+El código activo está en `nexocredit/`; `.github/` y `NexoCredit.code-workspace` se conservan en la raíz del repositorio. Los PDF y las capturas que se generen para entregar se guardan fuera del código fuente.
 
-## Estructura y revisión antes de ejecutar
+## 1. Preparar el equipo
 
-Extrae el ZIP sin aplanar carpetas. Dentro de NexoCredit/ están .github/,
-NexoCredit.code-workspace y empresa - copia/, la raíz activa del proyecto. Así se
-conservan los working-directory de CI. El JSON del manifiesto se entrega junto
-al ZIP e incluye rutas, tamaños y SHA-256 del contenido copiado y del ZIP; el
-Git SHA es referencia histórica, no prueba de un árbol limpio o de CI nueva.
+Instalar y abrir Docker Desktop. La primera construcción requiere Internet, imágenes y dependencias; la copia no es un instalador offline. Los puertos locales 8080, 8000 y 55433 deben estar libres. No desactivar TLS o autenticación para resolver descargas.
 
-Revisa primero empresa - copia/README.md, REQUISITOS_TECNOLOGICOS.md y
-docs/entrega/ENTREGA_DEMO.md. Las evidencias están fechadas: no garantizan
-conectividad actual, suscripción vigente, crédito real o aceptación formal.
-Los datos de identificación del plan se redactaron sólo en la copia; el archivo
-docs/estadia/ALUMNO.md es un marcador, no la ficha privada original.
+Esta entrega usa el proyecto Compose `nexocredit-demo` y su volumen `nexocredit-demo_datos_postgresql`. No migra ni reutiliza datos de una instalación anterior con otro nombre. No copiar su `.env`, borrar volúmenes ni iniciar dos copias sobre los mismos puertos. Una segunda copia con el mismo nombre Compose tampoco es independiente.
 
-## Instalación inicial en Windows: primero construir con Docker
+## 2. Construir, activar el modo local y crear una cuenta
 
-1. Instala/abre Docker Desktop y espera su motor. Esta secuencia es para un
-   equipo sin una instalación NexoCredit existente, con puertos locales libres.
-   Una carpeta nueva NO crea por sí sola un proyecto/volumen Docker independiente:
-   Compose conserva el nombre plurione-docker. Si ya existe, no ejecutes esta
-   copia como instalación nueva ni borres su volumen o .env; conserva el entorno
-   original y consulta el manual de operación antes de cambiarlo.
-   La primera construcción necesita Internet para imágenes y dependencias.
-   No desactives TLS, autenticación o antivirus para corregir descargas.
-2. Abre PowerShell en NexoCredit/empresa - copia/ y ejecuta:
+Abrir PowerShell en `nexocredit/` y ejecutar por separado:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 iniciar
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1 -Accion local
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1 -Accion usuario
+```
+
+El lanzador crea un `.env` privado con contraseñas aleatorias y construye la aplicación. No reemplazarlo por `.env.example`. El último paso pide usuario, nombre y contraseña oculta: no existe una cuenta predeterminada. Abrir [http://localhost:8080/](http://localhost:8080/) y entrar con la cuenta recién creada.
+
+El modo local selecciona documentos locales, scikit-learn y Ollama, sin consumir Azure. Ollama debe estar activo y tener el modelo configurado (`llama3.1:8b` por defecto); descargarlo necesita Internet, memoria y espacio adicionales. El código no descarga modelos al extraerse.
+
+## 3. Si no hay un modelo Ollama disponible
+
+Editar **sólo** `EXPLICACIONES_PROVEEDOR=local` en `nexocredit/infraestructura/contenedores_docker/.env`. Conservar `DOCUMENTOS_PROVEEDOR=local`, `ML_PROVEEDOR=local` y todas las demás variables. Luego, desde `nexocredit/`, ejecutar de nuevo:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 iniciar
 ```
 
-El lanzador crea un .env privado con contraseñas aleatorias nuevas y construye
-la aplicación. No copies .env.example encima del archivo privado generado.
-No se incluyen datos, usuarios, contraseñas o llaves de la computadora original.
+La explicación por plantilla está marcada **NO IA generativa**; el modelo predictivo numérico incluido sigue siendo un modelo entrenado. El resultado de reglas y la segunda opinión académica no se mezclan ni se convierten en una aprobación crediticia. No se convierten variables MXN a NTD.
 
-3. Después de construir, activa los proveedores y acceso locales:
+## 4. Operación y configuración adicional
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1 -Accion local
-```
+- Detener conservando los datos: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 detener`. No utilizar `down -v` ni borrar el volumen como parte del arranque.
+- [Recorrido breve con datos ficticios](README.md#recorrido-para-el-revisor--4-pasos).
+- [Manual de operación](nexocredit/docs/manuales/OPERACION.md), [proveedores locales y llaves](nexocredit/docs/manuales/ACCESO_LOCAL_Y_PROVEEDORES.md) y [tecnologías](nexocredit/REQUISITOS_TECNOLOGICOS.md).
+- Azure OpenAI/ML/Search y Entra conservan sus adaptadores y campos vacíos en las plantillas. Requieren recursos, suscripción, configuración y credenciales vigentes; el recorrido local no comprueba esos servicios.
+- Banxico/Banco Mundial necesitan Internet; no proporcionan historial Buró. La consulta SAT es manual y la revisión RFC/CURP local no certifica identidad.
+- Power BI requiere Desktop y una nueva conexión de lectura limitada. Sólo se entregan definiciones PBIP/TMDL, no PBIX/ABF, cachés o credenciales.
 
-4. Para explicaciones generativas, instala/abre Ollama y utiliza un modelo que
-   quepa en la memoria del equipo. El modo local propone llama3.1:8b: si no está
-   instalado, descargarlo es una operación adicional con Internet y espacio.
-   No se ejecuta ni descarga nada por extraer este paquete.
-   Sin modelo, puedes editar exclusivamente EXPLICACIONES_PROVEEDOR=local en
-   infraestructura/contenedores_docker/.env y volver a aplicar el backend con
-   operacion/aplicacion/Actualizar NexoCredit.cmd. Esa opción es una **plantilla
-   de reglas, NO IA generativa**. DOCUMENTOS_PROVEEDOR=local y ML_PROVEEDOR=local
-   mantienen las guías y el modelo numérico scikit-learn incluido.
-5. Crea tu cuenta propia; no existe una contraseña predeterminada:
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1 -Accion usuario
-```
-
-La consola pide usuario, nombre y contraseña oculta. No compartas la contraseña.
-Abre http://localhost:8080/ y entra con esa cuenta. El laboratorio scikit-learn es
-UCI/NTD independiente: no modifica el score capturado o reglas-demo-v2 en MXN.
-Ollama explica; no es el modelo predictivo del laboratorio.
-
-## Credenciales y límites de esta copia
-
-Azure OpenAI/ML/Search y Microsoft Entra conservan adaptadores y campos de keys
-en .env.example, pero **no incluye credenciales**. Azure requiere recursos,
-configuración y suscripción vigentes; no hay fallback cloud automático. La guía
-v2 está preparada localmente pero pendiente de carga/verificación en Azure
-Search. Banxico/otros proveedores y Entra requieren su configuración e Internet.
-Los datos locales no constituyen historial Buró o identidad SAT verificada.
-
-Sólo los nuevos escenarios usan reglas-demo-v2; los registros anteriores no se
-recalculan. Los resúmenes monetarios redondean pesos, no borran centavos de los
-cálculos. La IA, las revisiones y los pagos ficticios no autorizan crédito real.
-
-Power BI requiere Desktop y una conexión nueva de lectura limitada: no se
-incluyen PBIX/ABF, cachés o credenciales. Las definiciones PBIP/TMDL son fuente,
-no una garantía de actualización o resultado en un equipo nuevo. Entrenar UCI
-requiere obtener los datos autorizados por separado; no incluye sus CSV/pickle.
-
-Revisa la documentación de respaldo/soporte antes de operar datos. No publiques
-la aplicación, abras puertos o compartas .env, dumps, tokens y capturas privadas.
-No se acredita capacitación, horas, Scrum, aceptación o firma por esta entrega.
+Esta copia no incluye cuentas, secretos, bases, respaldos, dependencias instaladas, datasets UCI ni modelos Ollama. Las evidencias históricas y el SHA de un manifiesto no acreditan una ejecución nueva. No se certifican capacitación, horas, Scrum o aceptación por publicar archivos. [Alcance y condiciones de entrega](nexocredit/docs/entrega/ENTREGA_DEMO.md).

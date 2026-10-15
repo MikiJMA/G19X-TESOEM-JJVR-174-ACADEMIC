@@ -24,7 +24,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 log
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 detener
 ```
 
-Detener elimina los contenedores, pero conserva el volumen plurione-docker_datos_postgresql. No utilizar down -v ni eliminar el volumen si se necesitan los datos. El volumen no sustituye un respaldo.
+Detener elimina los contenedores, pero conserva el volumen nexocredit-demo_datos_postgresql. No utilizar down -v ni eliminar el volumen si se necesitan los datos. El volumen no sustituye un respaldo. Esta entrega usa el proyecto Compose `nexocredit-demo`; no migra ni reutiliza el volumen de la instalación de desarrollo original.
 
 Desde la raíz interior, `operacion/pruebas/Probar programacion.cmd` ejecuta las suites completas en una base temporal aislada, sin puertos publicados ni datos de trabajo. `operacion/respaldos/Respaldar PostgreSQL.cmd` crea el respaldo privado manual y `operacion/respaldos/Probar restauracion PostgreSQL.cmd` ensaya su recuperación en un contenedor temporal; no sobrescribe la base original. El ensayo del 04/10/2026 aprobó la conciliación de tres tablas. Dump sin cifrado ni roles globales/ACL; no automatiza retención ni acredita recuperación de producción. [Evidencia técnica](../../docs/evidencias/2026-10-04/cierre-tecnico.md).
 
@@ -49,7 +49,7 @@ Se comprobó UNABLE_TO_VERIFY_LEAF_SIGNATURE al descargar npm, incluso usando el
 Para repetirla, desde frontend ejecutar ESLint y Vite con Node instalado (o el runtime local), estableciendo VITE_API_URL=/ durante la compilación. Después, desde la raíz interior:
 
 ```powershell
-docker build -t plurione-docker-frontend -f infraestructura/contenedores_docker/frontend-precompilado.Dockerfile .
+docker build -t nexocredit-demo-frontend -f infraestructura/contenedores_docker/frontend-precompilado.Dockerfile .
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 abrir
 ```
 

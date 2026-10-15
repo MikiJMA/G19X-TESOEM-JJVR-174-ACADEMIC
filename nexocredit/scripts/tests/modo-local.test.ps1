@@ -5,6 +5,11 @@ $tokens = $null
 $errors = $null
 $ast = [Management.Automation.Language.Parser]::ParseFile($source, [ref]$tokens, [ref]$errors)
 if ($errors.Count) { throw 'El configurador tiene errores de sintaxis.' }
+$sourceText = $ast.Extent.Text
+if (-not $sourceText.Contains('& $dockerExe @composeArgs exec backend python scripts/crear_usuario_local.py') -or
+    $sourceText -match 'plurione-docker-backend|nexocredit-demo-backend') {
+    throw 'La creacion de cuenta debe resolver el servicio backend con Compose, no un contenedor fijo.'
+}
 foreach ($name in @('Set-NexoPrivateValues', 'Initialize-NexoLocalConfig', 'Get-NexoLocalValues')) {
     $definition = $ast.Find({ param($node) $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name }, $true)
     if (-not $definition) { throw 'Falta una funcion del configurador.' }

@@ -1,6 +1,8 @@
 # NexoCredit — demostración de análisis de riesgo crediticio
 
-NexoCredit es una marca demostrativa, no una razón social ni una aprobación empresarial. Los identificadores técnicos existentes se conservan para mantener las conexiones; la documentación histórica del proyecto no se altera retrospectivamente.
+En la entrega académica del 15/10/2026 el código se organiza en `nexocredit/` y Compose utiliza `nexocredit-demo`. Empezar por el [README de la raíz](../README.md), con instalación, recorrido de cuatro pasos, procedencia y declaración de uso de IA. Los apartados fechados siguientes conservan el historial documental; no acreditan comprobaciones nuevas de esta reorganización.
+
+NexoCredit es una marca demostrativa, no una razón social ni una aprobación empresarial. Se conservan los identificadores de esquema/modelos y los recursos Azure históricos; cambiar el nombre del proyecto Compose no migra su volumen ni su configuración privada.
 
 Accesos de Windows: [operacion](operacion/README.md). Documentación: [índice](docs/README.md), [PRD](docs/producto/PRD_NEXOCREDIT.md) y [MVP](docs/producto/MVP_NEXOCREDIT.md). Para una vista limpia en VS Code, abrir [NexoCredit.code-workspace](../NexoCredit.code-workspace) desde la raíz exterior.
 
@@ -109,7 +111,7 @@ Sin DATABASE_URL el formulario indica que no se guardó; si la base está config
 
 ## Ejecutar en Windows
 
-Desde la carpeta interior `empresa - copia`, que contiene `backend`, `frontend` y `scripts`:
+Desde la carpeta interior `nexocredit`, que contiene `backend`, `frontend` y `scripts`:
 
 ```powershell
 python -m venv .venv
@@ -149,7 +151,7 @@ Empezar por [ENTREGA_DEMO.md](docs/entrega/ENTREGA_DEMO.md): alcance comprobado,
 ## Organización de carpetas
 
 ```text
-empresa - copia/                         Raíz del proyecto (carpeta interior)
+nexocredit/                         Raíz del proyecto (carpeta interior)
 ├── backend/                             Python + FastAPI
 │   ├── app/
 │   │   ├── main.py                      Entrada de la API

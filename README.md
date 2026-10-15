@@ -1,14 +1,12 @@
-# G19X-TESOEM-JJVR-174-ACADEMIC
+# NexoCredit · G19X-TESOEM-JJVR-174-ACADEMIC
 
 [![Validación NexoCredit](https://github.com/MikiJMA/G19X-TESOEM-JJVR-174-ACADEMIC/actions/workflows/ci.yml/badge.svg)](https://github.com/MikiJMA/G19X-TESOEM-JJVR-174-ACADEMIC/actions/workflows/ci.yml)
 
-Proyecto de Desarrollo de un Sistema Inteligente de Análisis de Riesgo Crediticio.
+Sistema académico de análisis de riesgo crediticio: React, FastAPI, PostgreSQL, reglas explicables, un modelo scikit-learn y revisión humana. La aplicación es local; GitHub aloja su código, no una demo web. Utiliza datos ficticios: no consulta Buró, no certifica identidad y no autoriza créditos reales.
 
-**NexoCredit es un prototipo académico local**, con datos ficticios: no consulta Buró, certifica identidad ni autoriza créditos. Publicar el código en GitHub no publica la aplicación como sitio web. Esta copia depurada no incluye cuentas, llaves, base de datos ni historial Git del entorno original.
+## Instalar y abrir sin Azure
 
-## Empezar
-
-Leer primero [LEEME_PRIMERO.md](LEEME_PRIMERO.md), que explica requisitos, configuración privada y límites. La primera construcción requiere Docker Desktop e Internet. En un equipo sin instalación NexoCredit previa, abrir PowerShell en `empresa - copia/` y ejecutar:
+Requisitos: Windows, PowerShell, Docker Desktop iniciado e Internet para la primera construcción. Desde la carpeta `nexocredit/`, ejecutar cada comando por separado:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 iniciar
@@ -16,35 +14,35 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1 -Accion usuario
 ```
 
-El último paso permite crear una cuenta propia; no hay una contraseña predeterminada. Abrir `http://localhost:8080/`. No reutilizar el volumen o la configuración de otra instalación: cambiar de carpeta no cambia automáticamente el nombre de proyecto Compose.
+El último comando crea una cuenta propia con contraseña oculta; no hay usuario ni contraseña predeterminados. Abrir [localhost:8080](http://localhost:8080/) e iniciar sesión. Compose usa `nexocredit-demo`: la copia no reutiliza automáticamente el volumen de desarrollo. Si otra aplicación ocupa 8080, 8000 o 55433, detenerla antes; no borrar sus datos.
 
-Ollama requiere servicio/modelo local instalado (`llama3.1:8b` por defecto). Sin modelo se puede seleccionar explícitamente la plantilla de reglas, marcada **NO IA generativa**. El laboratorio predictivo scikit-learn utiliza un artefacto numérico incluido y 19 variables UCI/NTD, separado de las reglas demo MXN.
+El modo local activa el modelo numérico incluido, los documentos locales y Ollama (`llama3.1:8b`, debe estar instalado). Sin Ollama, seleccionar `EXPLICACIONES_PROVEEDOR=local` en el archivo privado y reconstruir el backend: es una explicación por plantilla, **no IA generativa**. [Guía de instalación y configuración](LEEME_PRIMERO.md).
 
-## Organización
+## Recorrido para el revisor — 4 pasos
 
-- [empresa - copia/](empresa%20-%20copia/README.md): raíz activa con backend, frontend, IA, analítica, infraestructura, operación, scripts y documentación.
-- [.github/workflows/ci.yml](.github/workflows/ci.yml): pruebas automatizadas, migraciones PostgreSQL, auditoría, lint y compilación; sin despliegue.
-- [NexoCredit.code-workspace](NexoCredit.code-workspace): área de trabajo opcional de VS Code.
+1. En **Evaluación**, usar RFC ficticio `AAAA010101AA1`, ingresos `30000`, gastos `10000`, deuda `0`, pagos `0` y atraso `0`. No activar la revisión opcional CURP para este ejemplo.
+2. Evaluar con score `200`: se espera margen `$20,000` y riesgo **Alto**. Repetir con `600` → **Medio** y `900` → **Bajo**. El margen puede elevar el riesgo; estas categorías son reglas de demostración, no probabilidades.
+3. Dentro del resultado, desplegar **Capturar las 19 variables UCI del escenario ficticio**, pulsar **Cargar ejemplo UCI ficticio** y después **Consultar segunda opinión**. Se espera una respuesta académica del modelo local, con proveedor/modelo, clase y advertencias; el riesgo por reglas se conserva. Las 19 variables UCI/NTD son independientes: no se convierten los importes MXN ni se valida una solicitud mexicana. [Modelo y alcance](nexocredit/docs/manuales/LABORATORIO_IA_LOCAL.md).
+4. Abrir **Historial**, comprobar los escenarios guardados y entrar a un detalle para registrar una revisión ficticia. **Dashboard** resume los registros; **Documentos** consulta las guías locales. Nada de este recorrido requiere Azure; las explicaciones generativas sí requieren el servicio Ollama local disponible.
 
-Se conserva la carpeta interior para mantener las rutas de Docker, lanzadores y CI. No ejecutar los scripts desde una carpeta distinta a la indicada.
+## Documentación esencial
 
-## Documentación de entrega
+| Documento | Contenido |
+|---|---|
+| [PRD](nexocredit/docs/producto/PRD_NEXOCREDIT.md) · [MVP/MoSCoW](nexocredit/docs/producto/MVP_NEXOCREDIT.md) | Requisitos, alcance y prioridades |
+| [Arquitectura y datos](nexocredit/docs/desarrollo/ARQUITECTURA_Y_DATOS.md) | Componentes, API y persistencia |
+| [Operación](nexocredit/docs/manuales/OPERACION.md) · [Soporte](nexocredit/docs/manuales/MANTENIMIENTO_Y_SOPORTE.md) | Uso, respaldo y mantenimiento |
+| [QA](nexocredit/docs/calidad/QA.md) · [Evidencias fechadas](nexocredit/docs/evidencias/README.md) | Pruebas, resultados y límites |
+| [Estado de tecnologías](nexocredit/REQUISITOS_TECNOLOGICOS.md) · [Índice ampliado](nexocredit/docs/README.md) | Integraciones y documentación complementaria |
 
-- [Índice general](empresa%20-%20copia/docs/README.md).
-- [PRD](empresa%20-%20copia/docs/producto/PRD_NEXOCREDIT.md) y [MVP/MoSCoW](empresa%20-%20copia/docs/producto/MVP_NEXOCREDIT.md).
-- [Arquitectura y datos](empresa%20-%20copia/docs/desarrollo/ARQUITECTURA_Y_DATOS.md).
-- [Manual de operación](empresa%20-%20copia/docs/manuales/OPERACION.md), [soporte](empresa%20-%20copia/docs/manuales/MANTENIMIENTO_Y_SOPORTE.md) y [QA](empresa%20-%20copia/docs/calidad/QA.md).
-- [Tecnologías obligatorias y estado](empresa%20-%20copia/REQUISITOS_TECNOLOGICOS.md).
-- [Alcance de la entrega](empresa%20-%20copia/docs/entrega/ENTREGA_DEMO.md).
+Python, FastAPI, React, PostgreSQL, Docker, Power BI, GitHub Actions, Azure OpenAI, Azure Machine Learning, Azure AI Search, Microsoft Entra ID, APIs financieras y Scrum permanecen en el alcance. Las integraciones Azure/Entra conservan adaptadores, campos de keys y evidencias históricas; usarlas requiere configuración, recursos y suscripción vigentes. Las alternativas locales no certifican conectividad cloud ni sustituyen las tecnologías obligatorias. [Configuración Azure conservada](nexocredit/docs/manuales/AZURE_IMPLEMENTADO_Y_CONFIGURACION.md).
 
-Las evidencias citadas del repositorio de desarrollo son históricas y conservan sus fechas; no equivalen a una ejecución nueva en este repositorio. El estado actual de sus pruebas se consulta en **Actions**. La aceptación, capacitación y ceremonias Scrum no se certifican por publicar estos archivos.
+## Procedencia e historial de desarrollo
 
-## Tecnologías y límites
+Este repositorio académico empezó como una **copia depurada con historial independiente** el 14/10/2026. Sus primeros commits no representan todo el proceso anterior. El repositorio de desarrollo original es [MikiJMA/EmpresaPluri](https://github.com/MikiJMA/EmpresaPluri); su acceso, si fuera necesario para revisar el historial, está sujeto a autorización del propietario. No se ha concedido acceso ni publicado su base de datos o configuración privada. A partir de esta entrega se registran mejoras mediante commits pequeños con mensajes descriptivos; las evidencias anteriores conservan sus fechas.
 
-Python, FastAPI, React, PostgreSQL y Docker implementan el flujo local; Power BI se entrega mediante definiciones PBIP/TMDL sin cachés. Azure OpenAI, Azure Machine Learning, Azure AI Search y Microsoft Entra ID conservan adaptadores, plantillas de configuración y evidencias históricas; requieren recursos, credenciales y suscripción vigentes para usar sus servicios. Ollama, documentos locales y scikit-learn permiten continuar la demo sin Azure. Banxico/Banco Mundial aportan contexto público, no historial crediticio privado. Scrum cuenta con planificación/documentos, no ceremonias inventadas.
+## Uso de IA
 
-Las nuevas evaluaciones aplican `reglas-demo-v2`; un score menor implica mayor riesgo y el margen insuficiente puede elevarlo. No es un modelo crediticio validado para México. Los hechos de la explicación Ollama los calcula el servidor; sólo su comentario académico es IA, con límites y revisión humana.
+Se utilizó **Codex** como apoyo para implementar y depurar código, preparar pruebas automatizadas, organizar archivos y redactar documentación. Esta asistencia no equivale a validación humana, aceptación del asesor, autoría de datos de entrenamiento o ejecución de ceremonias Scrum. Los resultados comprobados se distinguen de las propuestas y los pendientes en QA y evidencias.
 
-## Seguridad de la copia pública
-
-Las keys se configuran exclusivamente en archivos privados del servidor, nunca en el frontend. `.env.example` contiene campos de ejemplo, no credenciales de trabajo. Se excluyeron datos personales de identificación, dumps, usuarios, capturas privadas, PBIX/ABF, dependencias y modelos Ollama. No se publica ningún secreto ni se abren puertos adicionales por clonar este repositorio.
+Las llaves van únicamente en archivos privados del servidor. No compartir `.env`, contraseñas, bases, respaldos ni capturas privadas. Los artefactos PDF/capturas generados para la entrega no forman parte del código fuente. [Límites completos de la demo](nexocredit/docs/entrega/ENTREGA_DEMO.md).

@@ -22,7 +22,7 @@ if (($plan -join ' ') -notmatch '--network none' -or ($plan -join ' ') -match '(
 if ($plan[-1] -ne $image -or $plan -notcontains '--pull=never' -or $plan -notcontains "io.plurione.suite-test=$marker") {
     throw 'Se pierde la imagen exacta o la identidad temporal.'
 }
-foreach ($invalid in @('', 'plurione-docker-postgres-1', '../salida', 'a;otra-cosa')) {
+foreach ($invalid in @('', 'nexocredit-demo-postgres-1', '../salida', 'a;otra-cosa')) {
     $rejected = $false
     try { $null = Get-PostgresTestPlan $invalid $image } catch { $rejected = $true }
     if (-not $rejected) { throw 'Se acepto un marcador temporal no valido.' }
@@ -47,7 +47,7 @@ try {
     }
     $script:calls = @()
     $rejected = $false
-    try { Remove-PostgresTestContainer 'Invoke-FakeTestDocker' 'plurione-docker-postgres-1' $marker } catch { $rejected = $true }
+    try { Remove-PostgresTestContainer 'Invoke-FakeTestDocker' 'nexocredit-demo-postgres-1' $marker } catch { $rejected = $true }
     if (-not $rejected -or $script:calls.Count) { throw 'La limpieza no debe aceptar el nombre de la base principal.' }
 } finally { $global:LASTEXITCODE = $initialExit }
 Write-Host 'Correcto: prueba sin red externa, puertos ni montajes; limpieza propia y rechazo de destinos ajenos. Sin Docker real.'
