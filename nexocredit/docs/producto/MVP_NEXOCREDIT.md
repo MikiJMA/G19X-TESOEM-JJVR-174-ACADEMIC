@@ -4,17 +4,56 @@
 
 | Dato de control | Valor |
 |---|---|
-| Versión | 1.5 |
+| Versión | 1.8 |
 | Fecha de edición | 15/10/2026 |
 | Línea base técnica | 04/10/2026 |
-| Incremento actual | 15/10/2026: segunda opinión académica en evaluación con escenario UCI independiente |
+| Incremento actual | 15/10/2026: piloto empresarial en sombra y comparación rigurosa; historial empresarial aún no disponible |
 | Estado | Propuesta de alcance y aceptación; núcleo técnico comprobado |
 | Documento complementario | [PRD — NexoCredit](PRD_NEXOCREDIT.md) |
 | Documento anterior | [PRD/MVP combinado, conservado](../archivo/PRD_MVP_NEXOCREDIT.md) |
-| Entorno objetivo | Demo local existente; sin alojamiento o acceso remoto |
+| Entorno objetivo | Piloto empresarial local controlado, sin decisiones reales ni alojamiento remoto |
 | Aceptación formal | Pendiente de revisión y registro |
 
 Este documento define qué debe contener la entrega mínima, cómo priorizarla y cómo verificarla. No autoriza nuevas llamadas de pago, cambios cloud, publicación, uso de datos reales ni instalación para el asesor. La prioridad de una función no determina si ya está implementada.
+
+### Adenda 1.8 — MoSCoW de piloto empresarial
+
+| Prioridad | Alcance | Estado y aceptación |
+|---|---|---|
+| Must — M17 | Comparación de algoritmos con datos disponibles | Ejecutada: anidada 5×3, calibración interna e intervalos agrupados; test histórico excluido y sin mejora concluyente |
+| Must — M18 | Control del piloto en sombra | API protegida y pantalla: sin decisiones automatizadas/clientes reales habilitados, motivos pendientes, sin promoción por mayor AUC |
+| Must | Datos, límites e historial honestos | No inventar historiales ni aceptar sintéticos como validación empresarial; conservar resultados y fuentes anteriores |
+| Should — M19 | Contrato del historial futuro | Validador offline implementado/pruebas con fixtures; sin CSV empresarial procesado ni entrenamiento empresarial |
+| Could | Nuevo modelo con datos de la empresa | Condicionado a autorización, desenlace definido, madurez y validación temporal/por persona |
+| Won't en este incremento | Uso productivo, aprobaciones/rechazos automáticos o declarar fiabilidad demostrada | No hay evidencia empresarial que lo respalde |
+
+El objetivo actual es una prueba de empresa; el origen académico permanece como historial y no se falsean aceptaciones. [Resultados y condiciones para avanzar](../desarrollo/PILOTO_EMPRESARIAL.md). El éxito del MVP técnico no aprueba el modelo para operar con clientes reales.
+
+### Adenda 1.7 — MoSCoW de modelo mexicano integrado
+
+| Prioridad | Alcance | Criterio |
+|---|---|---|
+| Must — M16 | Inferencia de modelo entrenado con microdatos mexicanos en el POST principal | Perfil ENIF explícito, artefacto numérico verificado, resultado persistido y visible primero en evaluación y detalle; sin depender de Azure/Ollama |
+| Must | Calidad y origen honestos | Fuente INEGI/CNBV, métricas reales y capacidad limitada visibles; salida de encuesta no presentada como riesgo validado o impago futuro |
+| Must | Integridad y compatibilidad | No reescribir registros antiguos, rellenar desconocidos por cero o mapear MXN a UCI; fallo cerrado si cambia/falta artefacto |
+| Should | Reproducción y comparación | Entrenamiento por UPM, selección sólo en validación, prueba independiente, contraste JSON–sklearn y baseline; reglas conservadas como comparación |
+| Could | Mejorar el modelo con otra fuente autorizada | Requiere variables compatibles, validación independiente y nueva versión; no optimizar sobre la prueba ya observada |
+| Won't | Predictor bancario prospectivo o aprobaciones automáticas | No existen desenlaces longitudinales de préstamos en ENIF ni validación para tales decisiones |
+
+Estado: modelo académico entrenado e integrado. AUC 0.605496 de prueba, 26.73 % de precisión positiva: no promocionado como sustituto fiable de un motor crediticio. [Ficha completa](../../inteligencia_artificial/prediccion_mexico/README.md). Aceptación humana/asesor pendiente; no se presume.
+
+### Adenda 1.6 - MoSCoW de valoración IA del mismo escenario
+
+| Prioridad | Alcance | Criterio |
+|---|---|---|
+| Must - M15 | Valoración generativa automática de la solicitud guardada | Mismos seis datos financieros, UUID correcto, categoría y factores Ollama, sin formulario UCI adicional |
+| Must | Privacidad e integridad | Servidor lee fuente guardada; sin RFC/CURP o riesgo por reglas al LLM; no sobrescribir resultado histórico |
+| Must | Fallos y honestidad | Sin resultado simulado, probabilidad inventada o fallback Azure; revisión humana impuesta por código; distinguir IA generativa de scoring predictivo |
+| Should | Uso acotado y recuperación | Caché 24 h, diez valoraciones/h/cuenta, límite compartido de dos generaciones Ollama simultáneas; reintento manual, deduplicación y respuestas tardías descartadas |
+| Could | Modelo predictivo compatible con estos mismos datos | Futuro dataset autorizado y validación independiente, no etiquetas sintéticas para aparentar precisión |
+| Won't en este incremento | Decisiones crediticias reales o reemplazar reglas históricas | Sin aprobaciones, rechazos, Buró o uso de métricas UCI como precisión de Ollama |
+
+La presencia de IA en el flujo del mismo escenario queda separada de la validación estadística: la primera no prueba la segunda. Se mantienen las trece tecnologías obligatorias y las evidencias históricas, sin nueva CI remota. [PRD-RF17](PRD_NEXOCREDIT.md), [operación](../manuales/OPERACION.md).
 
 ### Adenda 1.5 — MoSCoW de la segunda opinión académica — 15/10/2026
 

@@ -52,6 +52,9 @@ REQUIRED_PROJECT = frozenset({
     'scripts/docker.ps1', 'scripts/modo-local.ps1', 'scripts/crear_usuario_local.py',
     'backend/app/integraciones/prediccion_local/artefactos/modelo.json',
     'backend/app/integraciones/prediccion_local/artefactos/entrenamiento.json',
+    'backend/app/integraciones/prediccion_mexico/artefactos/modelo.json',
+    'backend/app/integraciones/prediccion_mexico/artefactos/entrenamiento.json',
+    'backend/app/integraciones/prediccion_mexico/piloto/comparacion-v1/comparacion.json',
     str(PLAN), str(BACKGROUND),
 })
 ROOT_PUBLIC_FILES = frozenset({'README.md', 'LEEME_PRIMERO.md', '.gitignore'})

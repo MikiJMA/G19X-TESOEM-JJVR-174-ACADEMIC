@@ -1,6 +1,14 @@
 # Arquitectura y datos — NexoCredit
 
-Corte documental: 15/10/2026, con línea base funcional y evidencias fechadas desde el 11/10/2026. La segunda opinión añade inferencia académica junto al resultado, no scoring predictivo mexicano. Se conservan las evidencias históricas Azure/Power BI; no certifican servicios vigentes, producción ni datos crediticios oficiales.
+Corte documental: 15/10/2026, con línea base funcional y evidencias fechadas desde el 11/10/2026. La evaluación principal incorpora ahora un modelo ENIF mexicano experimental, distinto del experimento UCI y de la valoración generativa. No es un predictor validado de impagos futuros. Se conservan las evidencias históricas Azure/Power BI; no certifican servicios vigentes, producción ni datos crediticios oficiales.
+
+## Modelo mexicano integrado
+
+`SolicitudCredito.perfil_enif` es un objeto opcional validado con Pydantic. Contiene seis preguntas financieras y nueve posibles productos de crédito (mínimo uno); no se deduce del RFC, score o importe de deuda. El mismo `vectorizar()` genera las 25 características en entrenamiento e inferencia. El POST principal llama a `prediccion_mexico/cliente.py`, verifica SHA-256 del JSON numérico, ejecuta la regresión logística y añade `analisis_mexico` al resultado. El cliente no importa sklearn, carga pickle ni usa red. `GET /api/v1/modelo-mexico` expone metadatos y métricas con autenticación.
+
+El repositorio existente guarda el perfil en JSONB `solicitud` y la salida ENIF completa en JSONB `resultado`; no hace falta migración. Los reintentos idempotentes recuperan el resultado original. Un perfil distinto con la misma clave da 409. El detalle/historial conserva modelo/huella/estimación/métricas de su ejecución, sin reclasificar registros anteriores. Si se selecciona ENIF y falta/cambia el artefacto, 503 sin guardar silenciosamente sólo las reglas. Si no se captura perfil, no existe `analisis_mexico` y React anuncia que sólo se aplicaron reglas.
+
+React `PerfilMexico` forma parte de `EvaluationForm`; `ResultadoMexico` se muestra primero en `EvaluationResult` y también en `EvaluationDetail`. Su clase binaria no es Bajo/Medio/Alto: **no se sobrescribe `nivel_riesgo_preliminar`**, por lo que dashboard y vista Power BI continúan siendo comparaciones por reglas. La explicación generativa/determinista anterior sigue explicando esas reglas, no ENIF. La valoración Ollama separada tampoco decide la clase del modelo mexicano. [Ficha, métricas y limitaciones](../../inteligencia_artificial/prediccion_mexico/README.md).
 
 ## Componentes y responsabilidades
 
@@ -10,6 +18,8 @@ Navegador React → Nginx /api → FastAPI → PostgreSQL
                              └─ Cuenta local (scrypt/JWT, revocación en DB)
 FastAPI por función
   evaluación principal → reglas-demo-v2; registros v1 conservados sin recálculo
+    perfil ENIF explícito → modelo mexicano JSON numérico → analisis_mexico persistido junto a reglas
+    valoración automática misma captura MXN → Ollama → caché 24 h; no sobrescribe reglas
     segunda opinión opcional → escenario UCI independiente → scikit-learn local o Azure ML
   explicación → Azure OpenAI u Ollama o plantilla sin IA
   documentos → Azure AI Search o búsqueda literal local
@@ -21,9 +31,19 @@ Docker Compose → frontend/backend/migraciones/postgres
 GitHub Actions → suites y construcción, sin publicación automática
 ```
 
-Azure/Entra continúan implementados y obligatorios según el proyecto. Las alternativas locales permiten continuidad, no eliminan esos requisitos ni acreditan conectividad Azure actual. Identificadores del solicitante, comentarios y motivos de revisión no se envían a los proveedores financieros, explicativos o predictivos. La explicación recibe los hechos financieros permitidos; la inferencia recibe sólo las 19 variables del escenario UCI independiente, nunca una conversión de la solicitud MXN.
+Azure/Entra continúan implementados y obligatorios según el proyecto. Las alternativas locales permiten continuidad, no eliminan esos requisitos ni acreditan conectividad Azure actual. Identificadores del solicitante, comentarios y motivos de revisión no se envían a los proveedores financieros, explicativos o predictivos. La explicación recibe los hechos financieros permitidos. La inferencia UCI recibe sólo las 19 variables de su escenario independiente; la inferencia mexicana recibe únicamente el perfil ENIF explícito y opera localmente. Ninguna convierte automáticamente los seis datos MXN a otro esquema.
 
-## Segunda opinión en la evaluación — 15/10/2026
+## Valoración generativa del mismo escenario - 15/10/2026
+
+`ValoracionIASolicitud` comprueba estado y solicita automáticamente `POST /api/v1/evaluaciones/{UUID}/valoracion-ia` tras el guardado. El cliente sólo manda UUID; el servidor recupera la solicitud original y valida ingresos, gastos, deuda, pagos, atraso y score estrictos. Calcula margen, pagos/ingresos (%) y deuda/ingreso mensual antes de pedir a Ollama una valoración independiente. No transmite clasificación por reglas ni PII.
+
+El contrato generativo sólo admite categoría Bajo/Medio/Alto, códigos de factores y revisiones de catálogos acotados. Las cifras y etiquetas se construyen por código con los datos originales; no se aceptan probabilidades, narración arbitraria o recomendaciones de autorizar crédito. El servidor agrega revisión humana aunque el LLM la omita. Esto limita el formato, no demuestra corrección semántica de la categoría.
+
+Se reutilizan `cache_explicaciones` y `cuotas_explicaciones`, con hash de contrato/modelo/datos y namespace de usuario `valoracion-ia:`: éxitos 24 h, fallos un minuto, diez valoraciones/hora/cuenta independientes de explicaciones. Los locks y cuotas persisten entre procesos. Explicación y valoración comparten un límite local de dos generaciones Ollama simultáneas. No se alteran las cinco migraciones, `evaluaciones.resultado`, revisiones, dashboard o Power BI. Caché de generación no significa cambiar el resultado crediticio histórico.
+
+El frontend deduplica por UUID durante la sesión, descarta respuestas si se cambia formulario y permite sólo reintento explícito tras un fallo. Servidor con límite de espera 180 s, cliente 200 s para carga local. Sin datos completos se rechaza con 409; sin Ollama se informa error, no se usa Azure o una plantilla automáticamente. `VALORACION_IA_PROVEEDOR=deshabilitado` impide la generación. Las integraciones Azure y el modelo UCI siguen disponibles, sin intercambiar sus variables o métricas con esta función.
+
+## Segunda opinión UCI independiente — 15/10/2026
 
 `SegundaOpinionModelo` / `PanelSegundaOpinion` presentan, tras el guardado, la categoría y versión originales junto a una clase del modelo académico. Las 19 entradas son independientes: `LIMIT_BAL`, `PAY_0`, `PAY_2…6`, `BILL_AMT1…6` y `PAY_AMT1…6`. Son enteros int32; límite positivo, pagos no negativos y estados de pago de −2 a 9. El usuario captura o carga un ejemplo ficticio UCI; cargarlo no consulta. No se incluyen datos demográficos, RFC/CURP, ingresos o deuda MXN del solicitante.
 

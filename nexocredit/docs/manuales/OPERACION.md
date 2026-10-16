@@ -2,7 +2,31 @@
 
 Actualización documental: 15/10/2026. Los recorridos antiguos conservan sus fechas; no equivalen a una ejecución nueva ni aceptación empresarial. Ver [evidencias](../evidencias/README.md) y [pendientes de entrega](../entrega/ENTREGA_DEMO.md).
 
-## Recorrido vigente y segunda opinión — 15/10/2026
+## Modelo mexicano en la evaluación — 15/10/2026
+
+1. Usar la copia académica actualizada y completar los campos habituales con datos ficticios. El bloque **Modelo mexicano · ENIF 2024** está activado en las nuevas capturas. No necesita Azure, Ollama o conexión a INEGI para evaluar.
+2. Ejemplo ficticio: ingreso laboral por periodo 12000; periodicidad Mes; ingreso Fijo; presupuesto Sí; ingreso suficiente para gastos Sí; ahorros Tres meses a menos de seis meses; Tarjeta bancaria. El ingreso laboral del perfil es otra pregunta, no se copia automáticamente del ingreso mensual total. Si el ingreso por periodo supera 98000, declarar 98000 según el tope de captación ENIF; no usar 99888, que es código de rechazo.
+3. Pulsar «Evaluar escenario». Primero aparece **Resultado del modelo mexicano**, después **Comparación por reglas demo**. El ejemplo produce salida asociativa `0.111645` frente a umbral `0.18`: clase `perfil_no_asociado_a_atraso`. No significa que la persona no tenga atrasos ni 11 % de probabilidad de impago. Cambiar sólo el score a 200 modifica las reglas, no ENIF.
+4. Abrir «Calidad medida y procedencia»: AUC 0.605, precisión positiva 27 %, capacidad limitada. En Historial → Ver detalle se muestra el resultado guardado con modelo y SHA-256. No recalcula ni altera lo histórico. No usar ninguna salida para aprobar/rechazar créditos.
+5. Si no existe crédito formal, ingreso laboral positivo o respuestas completas, desactivar este análisis. Se anuncia «Sin modelo mexicano» y se conserva la evaluación por reglas; nunca se rellenan respuestas por cero. Si el artefacto está ausente/alterado, se informa 503 y no se guarda sólo reglas fingiendo éxito del modelo. Para corregir, restaurar la versión íntegra del código y artefacto, no editar su SHA para saltar el control.
+
+Las explicaciones anteriores siguen tratando las reglas. Ollama puede estar deshabilitado (`VALORACION_IA_PROVEEDOR=deshabilitado`) sin afectar ENIF. Azure, sus campos de keys y el laboratorio UCI se conservan. [Reproducción, población y fuentes](../../inteligencia_artificial/prediccion_mexico/README.md). Este cambio está en la copia académica local; no actualiza automáticamente una instalación Docker ya abierta ni las publicaciones de GitHub.
+
+## Evaluación con IA del mismo escenario - 15/10/2026
+
+1. Mantener Ollama abierto con el modelo instalado `llama3.1:8b`. El modo local configura `VALORACION_IA_PROVEEDOR=ollama`; Docker usa `OLLAMA_URL=http://host.docker.internal:11434`. Nunca descarga un modelo automáticamente ni necesita llave.
+2. Completar los seis datos financieros ficticios habituales y guardar con «Evaluar escenario». La tarjeta **Evaluación con IA de tu escenario** comienza automáticamente; no requiere las entradas UCI ni otro botón. La primera carga puede tardar hasta tres minutos según el equipo.
+3. Comparar **Resultado por reglas** con **Valoración de Ollama**. La IA analiza esa misma captura de ingresos/gastos/deuda/pagos/atraso/score, no recibe el riesgo por reglas y puede discrepar. La discrepancia exige revisión; nunca se promedian o sobrescriben los resultados.
+4. Consultar factores seleccionados, valores calculados por el servidor y revisiones de un catálogo. El servidor agrega siempre revisión humana, aunque el LLM no la seleccione. No se muestran narraciones libres, cifras inventadas, porcentajes de impago, aprobaciones o rechazos.
+5. Si falla, lo guardado permanece; no hay reintento automático. «Volver a intentar valoración IA» es una acción explícita; los errores del proveedor se cachean un minuto. La valoración correcta se cachea 24 horas. Hay diez valoraciones nuevas/hora/cuenta, separadas de las explicaciones anteriores, y un máximo compartido de dos generaciones Ollama simultáneas.
+
+El navegador envía sólo UUID por `POST /api/v1/evaluaciones/{identificador}/valoracion-ia`; FastAPI recupera los datos guardados. `GET /api/v1/valoracion-ia/estado` indica configuración, no prueba conectividad. Ambas rutas exigen sesión. Sin datos financieros completos en un registro antiguo se devuelve 409: ausencia no se sustituye por cero. Sin modelo/configuración, 503; respuesta fuera de contrato, 502; espera agotada, 504; límite, 429. No hay cambio automático a Azure o plantilla fingiendo IA.
+
+**La valoración es generativa, no un modelo estadístico de impago entrenado/validado para México.** No consulta Buró ni valida identidad. No se envían RFC, CURP, nombre, comentarios o motivos. No crea aprobaciones/pagos, no modifica evaluaciones/revisiones ni añade una migración: utiliza la caché existente con clave y cuota separadas. Para desactivarla: `VALORACION_IA_PROVEEDOR=deshabilitado` en el archivo privado y actualizar el backend, sin borrar llaves Azure. No compartir ese archivo.
+
+El experimento UCI permanece bajo **Experimento UCI independiente (opcional)** y en Laboratorio; no es la nueva valoración de los datos MXN. El recorrido siguiente describe ese experimento adicional.
+
+## Recorrido UCI independiente — 15/10/2026
 
 Instalación: seguir el [README de la raíz pública](../../../README.md), con código activo en `nexocredit/`. Puede usarse cuenta local propia, documentos locales y modelo scikit-learn sin consumir Azure; Azure/Entra y sus campos de configuración siguen disponibles. No hay contraseña predeterminada ni comprobación nueva de suscripción Azure por publicar este manual.
 

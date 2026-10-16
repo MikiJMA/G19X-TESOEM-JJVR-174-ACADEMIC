@@ -1,5 +1,13 @@
 # Índice de evidencias
 
+## Piloto empresarial en sombra — 15/10/2026
+
+[Comparación rigurosa, controles y contrato del historial](2026-10-15/piloto-empresarial.md): tres modelos, validación anidada agrupada/calibración interna, sin mejora consistente ni promoción automática. **247 backend/PostgreSQL y 168 frontend**, E2E headless y cuatro capturas reales; base original intacta. El usuario aún no cuenta con historial empresarial: no se afirma validación productiva ni prueba con clientes reales.
+
+## Modelo mexicano en el flujo principal — 15/10/2026
+
+[Modelo ENIF entrenado, integración y pruebas](2026-10-15/modelo-mexico-enif.md): datos públicos mexicanos, 3,906 casos completos, partición por UPM, AUC de prueba 0.605496 y capacidad limitada. **236 backend/PostgreSQL y 165 frontend** aprobadas; inferencia real en evaluación y detalle, persistencia/idempotencia probadas con PostgreSQL efímero, cuatro capturas headless y limpieza de recursos propios. No nueva CI, cambio de la instalación original ni predictor bancario validado.
+
 ## Mejoras de la copia académica - 15/10/2026
 
 [Reorganización y segunda opinión en evaluación](2026-10-15/mejoras-evaluacion-academica.md): carpeta `nexocredit/`, Compose propio, README corto, procedencia y uso de IA; modelo UCI independiente junto a reglas guardadas. Suite local final **211 backend y 146 frontend**, cinco pruebas PowerShell, lint/build y npm audit sin vulnerabilidades reportadas. Cambios conservados sólo localmente por elección del usuario; sin push ni nueva CI remota.

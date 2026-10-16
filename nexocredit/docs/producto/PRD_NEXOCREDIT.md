@@ -4,12 +4,12 @@
 
 | Dato de control | Valor |
 |---|---|
-| Versión | 1.5 |
+| Versión | 1.8 |
 | Fecha de edición | 15/10/2026 |
 | Línea base técnica | 04/10/2026 |
-| Seguimiento funcional | 15/10/2026: segunda opinión académica visible junto a reglas; escenarios UCI y MXN independientes |
+| Seguimiento funcional | 15/10/2026: piloto empresarial en sombra, comparación anidada, gobernanza y contrato de historial futuro |
 | Estado | Borrador para revisión y aceptación |
-| Producto | NexoCredit: demostración académica local de análisis crediticio |
+| Producto | NexoCredit: piloto empresarial local de análisis crediticio, aún no validado para decisiones reales |
 | Documento complementario | [MVP y matriz MoSCoW](MVP_NEXOCREDIT.md) |
 | Documento anterior | [PRD/MVP combinado, conservado](../archivo/PRD_MVP_NEXOCREDIT.md) |
 | Aprobación de usuario/asesor | Pendiente de registro; no se presume |
@@ -17,6 +17,32 @@
 Este documento define necesidades, comportamiento, restricciones y criterios de éxito. No concede autorización para tratar expedientes reales, contratar servicios, publicar la aplicación, modificar políticas crediticias ni acreditar horas o ceremonias que no hayan ocurrido.
 
 “Comprobado” significa que existe evidencia identificable de la línea base, no que se haya repetido la prueba al redactar esta edición. “Propuesto” identifica requisitos o actividades que todavía deben validarse. Los ejemplos son ficticios.
+
+### Adenda 1.8 — Alcance empresarial y fiabilidad
+
+El objetivo vigente solicitado es un **piloto empresarial en sombra**, no una presentación académica. Las adendas históricas siguientes se conservan como antecedentes. No se presume que un cambio de denominación, una suite de software o un AUC validen la predicción de impagos en la empresa. El usuario confirmó que todavía no existe un historial empresarial autorizado con resultados posteriores.
+
+RF19 / UC15: comparar logística, Random Forest y Gradient Boosting mediante validación anidada 5×3 por UPM, calibración interna e intervalos agrupados, excluyendo los 783 casos de prueba ya observada. Mostrar resultados de desarrollo separados de la prueba histórica y no promocionar automáticamente. Resultado: AUC 0.642/0.648/0.647, sin mejora consistente; modelo servido conservado.
+
+RF20 / UC16: estado `piloto_sombra` en servidor/resultado/pantalla con decisión automática y uso con clientes reales no habilitados, motivos pendientes y ausencia de endpoint de aprobación. Registros previos compatibles, sin reescritura. Estos estados informan el alcance y la ausencia de automatismos; no constituyen DLP ni autorización de datos.
+
+RF21 / UC17: validador offline de contrato para un futuro historial anonimizado/autorizado. Fechas al origen, corte/horizonte/umbral explícitos, identificadores opacos, duplicados, seguimiento y madurez; no convertir desconocidos/censura en negativos ni reflejar contenido de filas en errores. No existe todavía entrenamiento empresarial ni datos reales ingresados. [Diseño, resultados y condiciones de avance](../desarrollo/PILOTO_EMPRESARIAL.md).
+
+### Adenda 1.7 — Modelo entrenado con datos mexicanos — 15/10/2026
+
+RF18 / UC14: al completar el perfil ENIF en el formulario principal, `/api/v1/evaluar` ejecuta `nexocredit-enif2024-logistica-v1` y persiste perfil, clase, estimación asociativa, SHA-256, métricas y límites junto con la evaluación. React muestra primero el resultado mexicano y después la comparación por reglas. El detalle recupera el resultado guardado sin recalcularlo. El perfil es opcional para compatibilidad y casos no elegibles; si se selecciona exige todas sus respuestas y al menos un crédito formal. No se infieren datos ENIF desde score, deuda o identidad ni se rellenan vacíos por cero.
+
+Criterios de aceptación: inferencia numérica real sin Azure/Ollama/red; cambiar sólo score no altera ENIF; integridad fallida del artefacto devuelve 503 sin guardar silenciosamente sólo reglas; entradas inválidas 422 saneado; versión conservada con idempotencia y sin reescribir el historial. Modelo entrenado con 3,906 casos completos públicos de INEGI/CNBV, partición por UPM_DIS sin conglomerados compartidos. Prueba independiente 783 casos: AUC 0.605496 y precisión positiva 26.73 %. **Capacidad limitada, no aprobado como motor de decisiones ni predictor de impagos futuros**. No se establece una meta de precisión ficticia ni se convierte la encuesta transversal en historial longitudinal. [Ficha técnica y reproducción](../../inteligencia_artificial/prediccion_mexico/README.md).
+
+Esta adenda amplía el prototipo académico; no reemplaza retrospectivamente el significado de los riesgos demo almacenados ni elimina las integraciones obligatorias Azure. La captura ENIF es una adaptación explícita de las preguntas fuente, no una consulta de información de la persona ante INEGI.
+
+### Adenda 1.6 - Valoración generativa del mismo escenario - 15/10/2026
+
+**UC13 / PRD-RF17:** tras guardar una solicitud ficticia completa, Ollama debe valorar sus mismos seis datos financieros, sin exigir otro formulario ni las 19 variables UCI. La API lee la solicitud original, calcula margen y cocientes y envía sólo la allowlist numérica al modelo local. No transmite RFC/CURP, nombre, comentarios o clasificación por reglas. La categoría Bajo/Medio/Alto y selección de factores son del LLM; las cifras y textos del catálogo son del servidor. La revisión humana es obligatoria por código, aunque el modelo no la sugiera.
+
+Criterios: generación automática deduplicada por UUID; errores visibles y reintento explícito; no inventar datos ausentes o resultados si falla Ollama; contraste visible entre IA y reglas sin sobrescribir historial v1/v2; caché de generación 24 h, fallos un minuto y cuota separada de diez valoraciones/hora/cuenta. Al cambiar captura no mostrar una respuesta antigua. Sin Azure o descargas automáticas para esta función.
+
+La capacidad es **valoración cualitativa generativa**, no scoring predictivo entrenado con población mexicana. No satisface por sí sola el objetivo de validar precisión, calibración o sesgos de un modelo de impago; no se le atribuyen las métricas del laboratorio UCI ni autoriza créditos. Configuración `VALORACION_IA_PROVEEDOR=ollama|deshabilitado`; claves Azure y sus integraciones permanecen. [Operación](../manuales/OPERACION.md).
 
 ### Adenda 1.5 — Segunda opinión académica en la evaluación — 15/10/2026
 

@@ -1,4 +1,8 @@
-# NexoCredit — demostración de análisis de riesgo crediticio
+# NexoCredit — piloto empresarial de análisis de riesgo crediticio
+
+Alcance vigente: **piloto empresarial en sombra**, con pruebas controladas, no motor crediticio productivo. Se compararon tres modelos mediante validación anidada; no se demostró una mejora consistente y no se promocionó ningún candidato. Aún falta un historial autorizado de la empresa y validación temporal/operativa. [Protocolo, resultados, controles y contrato de datos](docs/desarrollo/PILOTO_EMPRESARIAL.md). Los apartados académicos anteriores se conservan como historial fechado, no como alcance objetivo actual.
+
+Incremento local del 15/10/2026: el formulario principal incorpora un [modelo mexicano entrenado con ENIF 2024](inteligencia_artificial/prediccion_mexico/README.md), con resultado persistido, métricas reales y capacidad limitada explícita. No depende de Ollama/Azure, no reemplaza los riesgos históricos por reglas ni constituye un predictor validado de impagos futuros. [Pruebas y límites de este incremento](docs/evidencias/2026-10-15/modelo-mexico-enif.md).
 
 En la entrega académica del 15/10/2026 el código se organiza en `nexocredit/` y Compose utiliza `nexocredit-demo`. Empezar por el [README de la raíz](../README.md), con instalación, recorrido de cuatro pasos, procedencia y declaración de uso de IA. Los apartados fechados siguientes conservan el historial documental; no acreditan comprobaciones nuevas de esta reorganización.
 
