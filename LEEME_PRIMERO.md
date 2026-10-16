@@ -24,7 +24,7 @@ El modo local selecciona documentos locales, scikit-learn y Ollama, sin consumir
 
 ## 3. Si no hay un modelo Ollama disponible
 
-Editar **sólo** `EXPLICACIONES_PROVEEDOR=local` en `nexocredit/infraestructura/contenedores_docker/.env`. Conservar `DOCUMENTOS_PROVEEDOR=local`, `ML_PROVEEDOR=local` y todas las demás variables. Luego, desde `nexocredit/`, ejecutar de nuevo:
+Editar **sólo** `EXPLICACIONES_PROVEEDOR=local` y `VALORACION_IA_PROVEEDOR=deshabilitado` en `nexocredit/infraestructura/contenedores_docker/.env`. Conservar `DOCUMENTOS_PROVEEDOR=local`, `ML_PROVEEDOR=local` y todas las demás variables. La valoración generativa se desactiva sin simular una respuesta; el modelo mexicano continúa disponible. Luego, desde `nexocredit/`, ejecutar de nuevo:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 iniciar

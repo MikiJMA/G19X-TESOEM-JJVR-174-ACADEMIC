@@ -1,5 +1,9 @@
 # Índice de evidencias
 
+## Actualización de instalación y cierre local — 15/10/2026
+
+[Respaldo, actualización, regresión y ensayo integral](2026-10-15/actualizacion-local.md): instalación existente actualizada sin recrear PostgreSQL, doce evaluaciones/dos revisiones/una cuenta conservadas; 247 backend y 168 frontend aprobadas, cinco capturas headless y pagos exactos comprobados en entorno separado. Commits locales y paquete depurado; sin push, CI remota o uso con clientes reales.
+
 ## Piloto empresarial en sombra — 15/10/2026
 
 [Comparación rigurosa, controles y contrato del historial](2026-10-15/piloto-empresarial.md): tres modelos, validación anidada agrupada/calibración interna, sin mejora consistente ni promoción automática. **247 backend/PostgreSQL y 168 frontend**, E2E headless y cuatro capturas reales; base original intacta. El usuario aún no cuenta con historial empresarial: no se afirma validación productiva ni prueba con clientes reales.

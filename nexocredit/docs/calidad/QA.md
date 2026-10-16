@@ -1,5 +1,9 @@
 # Reporte QA — prototipo 0.1
 
+## Instalación actualizada y regresión final — 15/10/2026
+
+247 backend/PostgreSQL y 168 frontend aprobadas, sin omisiones; recorrido integral con ENIF, revisión, seguimiento y pagos. Respaldo/restauración de doce tablas comprobados antes de actualizar sólo API/web; datos, cuenta y configuración privada conservados. Ensayo visual propio con cinco capturas, revisión humana y abonos exactos por API; temporales retirados. [Evidencia, primer intento del test y límites](../evidencias/2026-10-15/actualizacion-local.md). Sin push, CI remota, control de ventanas o validación crediticia empresarial.
+
 ## Piloto empresarial en sombra — comprobación 15/10/2026
 
 **247 backend/PostgreSQL y 168 frontend aprobadas**, sin omisiones; migraciones repetidas, cinco pruebas PowerShell, lint/build y npm audit con cero vulnerabilidades reportadas. Comparación real anidada de tres modelos sobre desarrollo ENIF (no sobre el test ya observado), control de estado sin aprobaciones desde cliente e integridad del informe. Nuevas pruebas del contrato de historial con fixtures: fechas, madurez/censura, duplicados, tipos/valores y rechazo de columnas de identidad; sin procesar un archivo de clientes.
