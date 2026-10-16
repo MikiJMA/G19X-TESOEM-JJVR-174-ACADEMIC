@@ -37,6 +37,7 @@ function Initialize-NexoLocalConfig([string]$EnvFile) {
 function Get-NexoLocalValues([string]$EnvFile) {
     $values = @{
         EXPLICACIONES_PROVEEDOR = 'ollama'; DOCUMENTOS_PROVEEDOR = 'local'; ML_PROVEEDOR = 'local'
+        VALORACION_IA_PROVEEDOR = 'ollama'
         OLLAMA_URL = 'http://host.docker.internal:11434'
     }
     # Solo un valor en la misma linea cuenta como modelo configurado.

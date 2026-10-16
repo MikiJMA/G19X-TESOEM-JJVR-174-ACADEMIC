@@ -19,6 +19,7 @@ from backend.app.rutas_api.proveedores import router as proveedores_router
 from backend.app.rutas_api.identidad import router as identidad_router
 from backend.app.rutas_api.seguimiento import router as seguimiento_router
 from backend.app.rutas_api.segunda_opinion import router as segunda_opinion_router
+from backend.app.rutas_api.valoracion_ia import router as valoracion_ia_router
 
 app = FastAPI(title="API de Riesgo Crediticio - NexoCredit", version="0.1.0")
 
@@ -48,6 +49,7 @@ app.include_router(proveedores_router, dependencies=[Depends(usuario_actual)])
 app.include_router(identidad_router, dependencies=[Depends(usuario_actual)])
 app.include_router(seguimiento_router)
 app.include_router(segunda_opinion_router)
+app.include_router(valoracion_ia_router)
 
 
 @app.get('/')
