@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:17-alpine
     ports:
-      - "127.0.0.1:55433:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-55433}:5432"
     environment:
       POSTGRES_USER: pluri_admin
       POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?Ejecuta scripts/docker.ps1 iniciar}
@@ -37,7 +37,7 @@ services:
       context: ../..
       dockerfile: infraestructura/contenedores_docker/backend.Dockerfile
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${API_PORT:-8000}:8000"
     environment:
       DATABASE_URL: postgresql://pluri_app:${POSTGRES_APP_PASSWORD:?Falta POSTGRES_APP_PASSWORD}@postgres:5432/pluri_credito
       CORS_ORIGINS: http://127.0.0.1:${WEB_PORT:-8080},http://localhost:${WEB_PORT:-8080}

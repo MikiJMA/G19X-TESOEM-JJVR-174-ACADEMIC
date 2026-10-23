@@ -2,7 +2,13 @@
 
 ## Incremento de la copia académica - 15/10/2026
 
-La copia de entrega usa ahora `nexocredit/` y Compose `nexocredit-demo`, con rutas CI/lanzadores/workspace y empaquetado actualizados. El [README principal](../../../README.md) ofrece instalación y recorrido de cuatro pasos, procedencia del historial y declaración de asistencia de Codex.
+La copia de entrega usa ahora `nexocredit/` y Compose `nexocredit-demo`, con rutas CI/lanzadores/workspace y empaquetado actualizados. El [README principal](../../../README.md) conserva una instalación breve y un recorrido de cuatro pasos; los límites, procedencia y condiciones de entrega se concentran aquí.
+
+### Procedencia y asistencia de IA
+
+Este repositorio académico se creó como una copia depurada con historial independiente el 14/10/2026. El repositorio de desarrollo original es `MikiJMA/EmpresaPluri`; su acceso depende de autorización del propietario y no se publican configuraciones privadas, bases de datos ni cuentas.
+
+Se utilizó Codex como apoyo para implementar y depurar código, preparar pruebas automatizadas, organizar archivos y redactar documentación. Esta asistencia no sustituye revisión humana, validación de datos, aceptación formal ni autoría de las fuentes de entrenamiento.
 
 En el resultado guardado se consulta opcionalmente el modelo con **19 variables UCI ficticias independientes**. No se convierten importes MXN, no se atribuye el escenario al solicitante mexicano y no se recalculan o persisten sus resultados. Las reglas demo y los registros históricos se conservan.
 

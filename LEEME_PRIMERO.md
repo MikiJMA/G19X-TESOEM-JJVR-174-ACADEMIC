@@ -20,6 +20,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\modo-local.ps1
 
 El lanzador crea un `.env` privado con contraseñas aleatorias y construye la aplicación. No reemplazarlo por `.env.example`. El último paso pide usuario, nombre y contraseña oculta: no existe una cuenta predeterminada. Abrir [http://localhost:8080/](http://localhost:8080/) y entrar con la cuenta recién creada.
 
+### Alternativa sin PowerShell: Docker Compose directo
+
+Desde `nexocredit/`, crea el archivo privado `infraestructura/contenedores_docker/.env` a partir de `.env.example`. Antes de iniciarlo, sustituye `REEMPLAZAR` por valores aleatorios distintos en `POSTGRES_ADMIN_PASSWORD` y `POSTGRES_APP_PASSWORD`, y asigna un secreto aleatorio de al menos 64 caracteres hexadecimales a `LOCAL_AUTH_SECRET`. Para modo local, establece `LOCAL_AUTH_ENABLED=true`, `EXPLICACIONES_PROVEEDOR=local`, `DOCUMENTOS_PROVEEDOR=local`, `ML_PROVEEDOR=local` y `VALORACION_IA_PROVEEDOR=deshabilitado` si no tienes Ollama.
+
+```text
+docker compose --project-name nexocredit-local --project-directory infraestructura/contenedores_docker --env-file infraestructura/contenedores_docker/.env -f infraestructura/contenedores_docker/docker-compose.yml up -d --build --wait --wait-timeout 180
+docker compose --project-name nexocredit-local --project-directory infraestructura/contenedores_docker --env-file infraestructura/contenedores_docker/.env -f infraestructura/contenedores_docker/docker-compose.yml exec backend python scripts/crear_usuario_local.py --usuario tu_usuario --nombre "Tu nombre"
+```
+
+El segundo comando solicita la contraseña de forma oculta. Para detener esta instalación sin borrar sus datos, sustituye `up -d --build --wait --wait-timeout 180` por `down`; no uses `down -v`. En una segunda instalación usa otro `--project-name` y cambia `WEB_PORT`, `API_PORT` y `POSTGRES_PORT` en su archivo privado para no ocupar los puertos de la primera.
+
 El modo local selecciona documentos locales, scikit-learn y Ollama, sin consumir Azure. Ollama debe estar activo y tener el modelo configurado (`llama3.1:8b` por defecto); descargarlo necesita Internet, memoria y espacio adicionales. El código no descarga modelos al extraerse.
 
 ## 3. Si no hay un modelo Ollama disponible

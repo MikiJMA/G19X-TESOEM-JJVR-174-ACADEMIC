@@ -8,6 +8,13 @@ function Get-PluriOneWebUrl([string]$Port = '8080') {
     return "http://localhost:$Port/"
 }
 
+function Get-NexoPort([string]$Name, [string]$Default) {
+    $value = [Environment]::GetEnvironmentVariable($Name)
+    if ([string]::IsNullOrWhiteSpace($value)) { return $Default }
+    if ($value -notmatch '^\d+$' -or [int]$value -lt 1 -or [int]$value -gt 65535) { throw "$Name debe ser un puerto valido." }
+    return $value
+}
+
 $project = Split-Path -Parent $PSScriptRoot
 $composeDir = Join-Path $project 'infraestructura\contenedores_docker'
 $envFile = Join-Path $composeDir '.env'
@@ -29,13 +36,18 @@ if (-not (Test-Path -LiteralPath $envFile)) {
         try { $generator.GetBytes($bytes) } finally { $generator.Dispose() }
         return ([BitConverter]::ToString($bytes)).Replace('-', '').ToLowerInvariant()
     }
-    $content = 'POSTGRES_ADMIN_PASSWORD=' + (New-DatabasePassword) + "`nPOSTGRES_APP_PASSWORD=" + (New-DatabasePassword) + "`nWEB_PORT=8080`n"
+    $webPort = Get-NexoPort 'WEB_PORT' '8080'
+    $apiPort = Get-NexoPort 'API_PORT' '8000'
+    $postgresPort = Get-NexoPort 'POSTGRES_PORT' '55433'
+    $content = 'POSTGRES_ADMIN_PASSWORD=' + (New-DatabasePassword) + "`nPOSTGRES_APP_PASSWORD=" + (New-DatabasePassword) + "`nWEB_PORT=$webPort`nAPI_PORT=$apiPort`nPOSTGRES_PORT=$postgresPort`n"
     $stream = [System.IO.File]::Open($envFile, [System.IO.FileMode]::CreateNew)
     $writer = New-Object System.IO.StreamWriter($stream, (New-Object System.Text.UTF8Encoding($false)))
     try { $writer.Write($content) } finally { $writer.Dispose() }
     Write-Host 'Configuracion privada creada. Conserva el archivo .env junto con el volumen de datos.'
 }
-$composeArgs = @('compose', '--project-directory', $composeDir, '--env-file', $envFile, '-f', (Join-Path $composeDir 'docker-compose.yml'))
+$composeArgs = @('compose')
+if ($env:NEXOCREDIT_COMPOSE_PROJECT) { $composeArgs += @('--project-name', $env:NEXOCREDIT_COMPOSE_PROJECT) }
+$composeArgs += @('--project-directory', $composeDir, '--env-file', $envFile, '-f', (Join-Path $composeDir 'docker-compose.yml'))
 switch ($Accion) {
     'abrir' { & $dockerExe @composeArgs up -d --no-build --pull never --wait --wait-timeout 180 }
     'iniciar' { & $dockerExe @composeArgs up -d --build --wait --wait-timeout 180 }

@@ -71,7 +71,9 @@ if ($Accion -ne 'usuario') {
 $command = Get-Command docker.exe -ErrorAction SilentlyContinue
 $dockerExe = if ($command) { $command.Source } else { Join-Path $env:LOCALAPPDATA 'Programs\DockerDesktop\resources\bin\docker.exe' }
 if (-not (Test-Path -LiteralPath $dockerExe)) { throw 'No se encontro Docker Desktop.' }
-$composeArgs = @('compose', '--project-directory', $composeDir, '--env-file', $privateFile, '-f', (Join-Path $composeDir 'docker-compose.yml'))
+$composeArgs = @('compose')
+if ($env:NEXOCREDIT_COMPOSE_PROJECT) { $composeArgs += @('--project-name', $env:NEXOCREDIT_COMPOSE_PROJECT) }
+$composeArgs += @('--project-directory', $composeDir, '--env-file', $privateFile, '-f', (Join-Path $composeDir 'docker-compose.yml'))
 if ($Accion -eq 'usuario') {
     $usuarioLocal = Read-Host 'Usuario local nuevo (3 a 64 caracteres; letras, numeros, punto, guion o guion bajo)'
     $nombreLocal = Read-Host 'Nombre que aparecera en NexoCredit'
