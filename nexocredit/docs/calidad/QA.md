@@ -1,5 +1,13 @@
 # Reporte QA — prototipo 0.1
 
+## Ensayo de instalación limpia — 23/10/2026
+
+Se clonó el commit `21d20b9` en una carpeta temporal independiente, sin archivos `.env`, cuentas ni volúmenes previos. En Windows se ejecutaron, en este orden, los tres comandos de [LEEME_PRIMERO.md](../../LEEME_PRIMERO.md): `docker.ps1 iniciar`, `modo-local.ps1 -Accion local` y `modo-local.ps1 -Accion usuario`. El primer comando construyó las imágenes, aplicó las migraciones con salida `0` y dejó PostgreSQL, backend y frontend en estado `healthy`; el segundo conservó el modo local y reinició la API correctamente; el tercero creó una cuenta de QA con contraseña oculta.
+
+La comprobación HTTP local respondió `200` en frontend (`http://127.0.0.1:18080/`) y en documentación de API (`http://127.0.0.1:18000/docs`). Se usaron los puertos temporales 18080, 18000 y 15433 y el proyecto Compose `nexocredit-ensayo-20261023`, por lo que la instalación de trabajo no fue modificada. Después de comprobar el resultado se retiran la copia, los contenedores, red y volumen temporales. También se validaron las pruebas de regresión de los lanzadores y la configuración de Compose; la alternativa sin PowerShell queda documentada en `LEEME_PRIMERO.md`.
+
+Este ensayo acredita reproducibilidad local en Windows con Docker Desktop para esta copia y fecha. No acredita disponibilidad de Azure/Ollama, aprobación crediticia, datos de clientes ni operación productiva.
+
 ## Instalación actualizada y regresión final — 15/10/2026
 
 247 backend/PostgreSQL y 168 frontend aprobadas, sin omisiones; recorrido integral con ENIF, revisión, seguimiento y pagos. Respaldo/restauración de doce tablas comprobados antes de actualizar sólo API/web; datos, cuenta y configuración privada conservados. Ensayo visual propio con cinco capturas, revisión humana y abonos exactos por API; temporales retirados. [Evidencia, primer intento del test y límites](../evidencias/2026-10-15/actualizacion-local.md). Sin push, CI remota, control de ventanas o validación crediticia empresarial.
