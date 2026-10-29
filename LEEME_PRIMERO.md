@@ -53,3 +53,22 @@ La explicación por plantilla está marcada **NO IA generativa**; el modelo pred
 - Power BI requiere Desktop y una nueva conexión de lectura limitada. Sólo se entregan definiciones PBIP/TMDL, no PBIX/ABF, cachés o credenciales.
 
 Esta copia no incluye cuentas, secretos, bases, respaldos, dependencias instaladas, datasets UCI ni modelos Ollama. Las evidencias históricas y el SHA de un manifiesto no acreditan una ejecución nueva. No se certifican capacitación, horas, Scrum o aceptación por publicar archivos. [Alcance y condiciones de entrega](nexocredit/docs/entrega/ENTREGA_DEMO.md).
+
+## Verificación
+
+Las mismas pruebas que ejecuta [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Desde `nexocredit/`, con el entorno virtual activado y PostgreSQL disponible:
+
+```powershell
+# Backend — 247 pruebas esperadas (API, PostgreSQL, integraciones, validación)
+python -m unittest discover -s backend/tests -v
+
+# Frontend — 168 pruebas esperadas (componentes, servicios, contratos)
+cd frontend
+npm test
+
+# Lint y compilación
+npm run lint
+npm run build
+```
+
+La suite aislada completa (PostgreSQL temporal propio, sin tocar datos de trabajo) se ejecuta con `operacion/pruebas/Probar programacion.cmd`.
