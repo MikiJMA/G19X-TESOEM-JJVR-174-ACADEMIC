@@ -19,7 +19,7 @@ const Finanzas = await cargar('datos_financieros/PanelFinanciero')
 const Identidad = await cargar('evaluacion_crediticia/componentes/PanelIdentidad')
 const Laboratorio = await cargar('azure_ml/PanelLaboratorio')
 const { PanelCredito } = await cargarComponente(new URL('../src/seguimiento_crediticio/PanelCredito.jsx', import.meta.url))
-const cssFiles = ['styles/index.css', 'styles/App.css', 'styles/History.css', 'styles/Detail.css', 'dashboard/Dashboard.css', 'azure_search/Documentos.css', 'datos_financieros/Finanzas.css', 'styles/Bento.css', 'styles/Enterprise.css', 'styles/Acceso.css', 'styles/ScoreAyuda.css', 'styles/Identidad.css', 'seguimiento_crediticio/Seguimiento.css', 'styles/EsquinasRectas.css']
+const cssFiles = ['styles/index.css', 'styles/App.css', 'styles/History.css', 'styles/Detail.css', 'dashboard/Dashboard.css', 'azure_search/Documentos.css', 'datos_financieros/Finanzas.css', 'styles/Bento.css', 'styles/Enterprise.css', 'styles/Acceso.css', 'styles/ScoreAyuda.css', 'styles/Identidad.css', 'seguimiento_crediticio/Seguimiento.css', 'styles/EsquinasRectas.css', 'styles/ModoOscuro.css']
 const css = (await Promise.all(cssFiles.map(path => readFile(new URL(`../src/${path}`, import.meta.url), 'utf8')))).join('\n')
 const fragmentos = []
 for (const file of ['01_alcance_proyecto.md', '02_guia_demostracion.md', '03_reglas_demo_v2.md']) {

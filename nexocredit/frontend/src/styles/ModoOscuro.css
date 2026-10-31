@@ -1,0 +1,345 @@
+/* Modo oscuro para NexoCredit */
+
+/* Variables y raíz en modo oscuro */
+[data-theme='oscuro'],
+[data-theme='dark'],
+.enterprise-app.dark-theme {
+  --ink: #f1f5f9;
+  --muted: #94a3b8;
+  --line: #1e293b;
+  --accent: #3b82f6;
+  --accent-dark: #2563eb;
+  background-color: #0b111e;
+  color: var(--ink);
+}
+
+.enterprise-app.dark-theme::before,
+[data-theme='oscuro'] .enterprise-app::before,
+[data-theme='dark'] .enterprise-app::before {
+  background-image: linear-gradient(rgba(11, 17, 30, 0.88), rgba(11, 17, 30, 0.94)), url('/images/nexocredit-background-v1.png');
+}
+
+/* Encabezado y Topbar */
+.enterprise-app.dark-theme .enterprise-topbar,
+[data-theme='oscuro'] .enterprise-topbar,
+[data-theme='dark'] .enterprise-topbar {
+  background: rgba(15, 23, 42, 0.88);
+  border-bottom-color: #1e293b;
+}
+
+.enterprise-app.dark-theme .enterprise-topbar h1,
+[data-theme='oscuro'] .enterprise-topbar h1,
+[data-theme='dark'] .enterprise-topbar h1 {
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .enterprise-topbar p,
+[data-theme='oscuro'] .enterprise-topbar p,
+[data-theme='dark'] .enterprise-topbar p {
+  color: #94a3b8;
+}
+
+/* Barra de sesión en modo oscuro */
+body[data-theme='oscuro'] .session-bar,
+body[data-theme='dark'] .session-bar,
+.dark-theme .session-bar {
+  color: #cbd5e1;
+}
+
+body[data-theme='oscuro'] .session-bar button,
+body[data-theme='dark'] .session-bar button,
+.dark-theme .session-bar button {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+body[data-theme='oscuro'] .session-bar button:hover:not(:disabled),
+body[data-theme='dark'] .session-bar button:hover:not(:disabled),
+.dark-theme .session-bar button:hover:not(:disabled) {
+  background: #27374d;
+}
+
+/* Tarjetas, paneles y contenedores */
+.enterprise-app.dark-theme .card,
+.enterprise-app.dark-theme .finance-panel,
+.enterprise-app.dark-theme .enterprise-kpi,
+.enterprise-app.dark-theme .home-shortcut,
+.enterprise-app.dark-theme .form-card,
+.enterprise-app.dark-theme .enterprise-risk-panel,
+.enterprise-app.dark-theme .provider-selection,
+.enterprise-app.dark-theme .documents-guide,
+.enterprise-app.dark-theme .history,
+.enterprise-app.dark-theme .evaluation-detail,
+.enterprise-app.dark-theme .dashboard-panel,
+.enterprise-app.dark-theme .credit-detail-card,
+.enterprise-app.dark-theme .credit-panel-card {
+  background: #121a2b;
+  border-color: #1e293b;
+  color: #f1f5f9;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.enterprise-app.dark-theme .enterprise-kpi > strong {
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .enterprise-kpi:hover,
+.enterprise-app.dark-theme .home-shortcut:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+.enterprise-app.dark-theme .home-shortcut h3 {
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .home-shortcut p {
+  color: #94a3b8;
+}
+
+.enterprise-app.dark-theme .home-shortcut-icon {
+  background: #172554;
+  color: #60a5fa;
+}
+
+.enterprise-app.dark-theme .home-shortcut-open {
+  color: #60a5fa;
+}
+
+/* Cabeceras de tarjetas */
+.enterprise-app.dark-theme .card-heading,
+.enterprise-app.dark-theme .history-heading {
+  background: linear-gradient(120deg, #162238, #121a2b);
+  border-bottom-color: #1e293b;
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .card-heading h2,
+.enterprise-app.dark-theme .history h2,
+.enterprise-app.dark-theme h2 {
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .enterprise-panel-tag {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+/* Entradas y controles de formulario */
+.enterprise-app.dark-theme input,
+.enterprise-app.dark-theme select,
+.enterprise-app.dark-theme textarea {
+  background: #0d1525;
+  border-color: #22324e;
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme input:focus,
+.enterprise-app.dark-theme select:focus,
+.enterprise-app.dark-theme textarea:focus {
+  border-color: #3b82f6;
+  background: #0f182a;
+}
+
+.enterprise-app.dark-theme input::placeholder {
+  color: #64748b;
+}
+
+.enterprise-app.dark-theme label {
+  color: #94a3b8;
+}
+
+.enterprise-app.dark-theme .form-divider {
+  border-color: #1e293b;
+}
+
+.enterprise-app.dark-theme .enterprise-secondary-metrics {
+  border-top-color: #1e293b;
+}
+
+.enterprise-app.dark-theme .enterprise-secondary-metrics strong {
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .enterprise-score-heading strong {
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .enterprise-score-track {
+  background: #1e293b;
+}
+
+/* Factores y avisos */
+.enterprise-app.dark-theme .factors li {
+  color: #cbd5e1;
+}
+
+.enterprise-app.dark-theme .notice {
+  background: #132240;
+  color: #e2e8f0;
+  border-left-color: #3b82f6;
+}
+
+.enterprise-app.dark-theme .demo-banner {
+  background: #132240;
+  border-color: #1e3a6a;
+}
+
+.enterprise-app.dark-theme .demo-banner p,
+.enterprise-app.dark-theme .demo-banner strong {
+  color: #93c5fd;
+}
+
+.enterprise-app.dark-theme .enterprise-risk-disclaimer {
+  border-top-color: #1e293b;
+  color: #94a3b8;
+}
+
+.enterprise-app.dark-theme .enterprise-ai-panel {
+  background: #121a2b;
+  border-color: #1e293b;
+}
+
+.enterprise-app.dark-theme .enterprise-ai-panel > p[role='status'] {
+  background: #132240;
+  color: #93c5fd;
+}
+
+/* Tablas e historial */
+.enterprise-app.dark-theme .history th {
+  background: #0d1525;
+  color: #93c5fd;
+  border-bottom-color: #1e293b;
+}
+
+.enterprise-app.dark-theme .history td {
+  border-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.enterprise-app.dark-theme .history tbody tr:nth-child(even) {
+  background: #152033;
+}
+
+.enterprise-app.dark-theme .history tbody tr:hover {
+  background: #1b283f;
+}
+
+.enterprise-app.dark-theme .history-pages {
+  border-top-color: #1e293b;
+  color: #94a3b8;
+}
+
+.enterprise-app.dark-theme .history-pages button {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+
+.enterprise-app.dark-theme .history-pages button:hover:not(:disabled) {
+  background: #27374d;
+}
+
+/* Detalle de evaluación */
+.enterprise-app.dark-theme .evaluation-detail {
+  background: #121a2b;
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .evaluation-detail select,
+.enterprise-app.dark-theme .evaluation-detail textarea {
+  background: #0d1525;
+  border-color: #22324e;
+  color: #f8fafc;
+}
+
+/* Dashboard, Métricas e Indicadores */
+.enterprise-app.dark-theme .dashboard-metric-card,
+.enterprise-app.dark-theme .dashboard-chart-card,
+.enterprise-app.dark-theme .kpi-card {
+  background: #121a2b;
+  border-color: #1e293b;
+  color: #f1f5f9;
+}
+
+.enterprise-app.dark-theme .dashboard-metric-card strong,
+.enterprise-app.dark-theme .dashboard-metrics strong {
+  color: #f8fafc;
+}
+
+/* Pie de página */
+.enterprise-app.dark-theme footer {
+  border-top-color: #1e293b;
+  color: #64748b;
+}
+
+/* Botón alternador de tema (Theme Toggle) */
+.enterprise-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0a1a3a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.enterprise-theme-toggle:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.enterprise-app.dark-theme .enterprise-theme-toggle {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+.enterprise-app.dark-theme .enterprise-theme-toggle:hover {
+  background: #27374d;
+  border-color: #475569;
+}
+
+/* Botón alternador en sidebar */
+.enterprise-theme-sidebar {
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.enterprise-theme-toggle-sidebar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cfe0ff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.enterprise-theme-toggle-sidebar:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+/* Alineación en Topbar */
+.enterprise-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
