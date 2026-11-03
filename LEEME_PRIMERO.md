@@ -56,7 +56,7 @@ Esta copia no incluye cuentas, secretos, bases, respaldos, dependencias instalad
 
 ## Verificación
 
-Las mismas pruebas que ejecuta [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Desde `nexocredit/`, con el entorno virtual activado y PostgreSQL disponible:
+Las mismas pruebas que ejecuta [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Conteo verificado al 31 de octubre de 2026 (247 pruebas backend y 168 pruebas frontend; revalidadas tras el modo oscuro). Desde `nexocredit/`, con el entorno virtual activado y PostgreSQL disponible:
 
 ```powershell
 # Backend — 247 pruebas esperadas (API, PostgreSQL, integraciones, validación)

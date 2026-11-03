@@ -2,33 +2,33 @@
 
 ## Recorrido funcional de 4 pasos — instalación limpia (31/10/2026)
 
-A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que los servicios Docker y PostgreSQL levantaban y respondían HTTP 200 sin probar el flujo de negocio), este ensayo ejecuta y valida el **recorrido funcional completo de cuatro pasos** sobre una instalación limpia según el guion del [README de la raíz](../../README.md#recorrido-para-el-revisor--4-pasos), documentando las entradas, las respuestas técnicas de la API, el comportamiento de la interfaz y las capturas de pantalla de cada etapa.
+A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que los servicios Docker y PostgreSQL levantaban y respondían HTTP 200 sin probar el flujo de negocio), este ensayo ejecuta y valida el **recorrido funcional completo de cuatro pasos** sobre una instalación limpia según el guion del [README de la raíz](../../README.md#recorrido-para-el-revisor--4-pasos), documentando las entradas, las respuestas técnicas de la API, los valores exactos visibles en pantalla y las capturas de pantalla de cada etapa (commit `15e9497`).
 
 ### Paso 1: Evaluación de riesgo sólo con reglas en el formulario principal
 
 - **Datos de entrada**: RFC `AAAA010101AA1`, Ingresos mensuales `$30,000`, Gastos mensuales `$10,000`, Deuda actual `$0`, Pagos de créditos `$0`, Días de atraso `0`, Score crediticio `900`. Perfil socioeconómico ENIF desmarcado/no incluido.
 - **Resultado en interfaz y API**:
-  - Margen mensual libre: `$20,000.00 MXN` (30,000 − 10,000).
-  - Reglas demo v2 por score: 680–1000 = **Bajo**.
-  - Reglas demo v2 por margen: > $15,000 = **Bajo**.
+  - Margen mensual libre: `$20,000.00 MXN` (30,000 − 10,000). Riesgo mínimo por margen: **Bajo**.
+  - Puntaje capturado: `900 / 1000`. Reglas demo v2 por score: 680–1000 = **Bajo**.
   - Nivel de riesgo preliminar resultante: **Bajo** (`reglas-demo-v2`).
-  - Modelo ENIF: No incluido; la interfaz anuncia explícitamente «sólo reglas» sin simular inferencia estadística.
+  - Modelo ENIF: No incluido; la interfaz anuncia explícitamente *«Sin modelo mexicano: no se capturó un perfil ENIF. Este resultado es sólo de reglas; no se transformaron ni inventaron datos»*.
 - **Captura de pantalla**:
   ![Paso 1 - Riesgo por reglas](../evidencias/2026-10-31/paso1_riesgo_reglas.png)
 
 ### Paso 2: Evaluación con perfil socioeconómico ENIF / Modelo México
 
 - **Datos de entrada**: Mismos datos financieros del Paso 1, activando el perfil mexicano ENIF:
-  - Ingreso laboral: `$12,000.00 MXN`, Periodicidad: **Mes** (código 1), Ingreso: **Fijo** (código 1).
+  - Ingreso laboral: `$12,000.00 MXN`, Periodicidad: **Mes** (código 3), Ingreso: **Fijo** (código 1).
   - Presupuesto: **Sí** (código 1), Gastos cubiertos: **Sí** (código 1).
-  - Capacidad de ahorro ante emergencias: **Tres meses a menos de seis meses** (código 3).
+  - Capacidad de ahorro ante emergencias: **Tres meses a menos de seis meses** (código 4).
   - Productos de crédito formal: **Tarjeta bancaria** (`bancaria`).
 - **Resultado en interfaz y API**:
   - Inferencia local ejecutada mediante `nexocredit-enif2024-logistica-v1` (SHA-256 verificado `1f6238b...`, sin dependencias cloud de Azure ni Ollama).
-  - Estimación asociativa: `0.169710` (< umbral 0.28).
-  - Clasificación ENIF: `perfil_no_asociado_a_atraso` (asociado a cumplimiento histórico en la muestra ENIF 2024).
-  - Métricas de prueba visibles: **AUC-ROC 0.6055**, precisión positiva 26.73 %, exactitud 70.28 %.
-  - Límites en pantalla: Capacidad limitada explícita; asociación transversal de encuesta, no impagos futuros.
+  - Dictamen en pantalla: **Perfil sin asociación detectada con atrasos reportados** (`perfil_no_asociado_a_atraso`).
+  - Salida estadística asociativa visible: **11%** (valor numérico exacto: `0.111645`).
+  - Umbral elegido en validación: **18%** (valor numérico exacto: `0.18`).
+  - Calidad medida en prueba independiente (783 entrevistas): **AUC 0.605** (`0.605496`), sensibilidad **72%** (`71.58%`), precisión positiva **27%** (`26.73%`), exactitud **48%** (`47.51%`).
+  - Capacidad limitada explícita: predecir siempre «sin atraso» logra **77%** (`76.63%`) de exactitud.
   - Reglas demo v2 simultáneas: Riesgo **Bajo** (margen $20,000 y score 900).
 - **Captura de pantalla**:
   ![Paso 2 - Resultado ENIF](../evidencias/2026-10-31/paso2_resultado_enif.png)
@@ -39,15 +39,15 @@ A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que lo
 - **Resultado en interfaz y API**:
   - Reglas demo v2 por score: 0–499 = **Alto**.
   - Reglas demo v2 por margen: > $15,000 = **Bajo**.
-  - Criterio de severidad estricto: El riesgo final adopta la categoría más severa de ambas (el margen nunca mejora un score desfavorable) $\rightarrow$ Nivel de riesgo por reglas escala inmediatamente a **Alto**.
-  - Modelo ENIF: **Permanece idéntico** (`perfil_no_asociado_a_atraso`, estimación 0.169710). Se comprueba técnicamente la total independencia entre el modelo socioeconómico ENIF (que no consume el score tradicional) y las reglas de negocio demo.
+  - Criterio de severidad estricto: El riesgo final adopta la categoría más severa de ambas (el margen nunca mejora un score desfavorable) $\rightarrow$ Nivel de riesgo por reglas escala inmediatamente a **Alto** (`reglas-demo-v2`).
+  - Modelo ENIF: **Permanece idéntico** (**11%** frente al umbral de **18%**, *Perfil sin asociación detectada con atrasos reportados*). Se comprueba técnicamente la total independencia entre el modelo socioeconómico ENIF (que no consume el score tradicional) y las reglas de negocio demo.
 - **Captura de pantalla**:
   ![Paso 3 - Cambio con score 200](../evidencias/2026-10-31/paso3_cambio_score_200.png)
 
 ### Paso 4: Visualización del registro persistido en el Historial de evaluaciones
 
 - **Comportamiento en interfaz y PostgreSQL**:
-  - Las tres evaluaciones sucesivas quedan registradas de forma inmutable en la tabla `evaluaciones` de PostgreSQL con su respectivo UUID, fecha/hora UTC, RFC `AAAA010101AA1` y nivel de riesgo.
+  - Las evaluaciones sucesivas quedan registradas de forma inmutable en la tabla `evaluaciones` de PostgreSQL con su respectivo UUID, fecha/hora, solicitante `AAAA010101AA1`, margen disponible `$20,000` y nivel de riesgo (**ALTO** y **BAJO**).
   - Al hacer clic en **Ver detalle** de cada registro, se despliega el payload completo capturado, los factores explicativos y los metadatos del modelo ENIF (cuando aplica).
   - El módulo de **Revisión manual** permite fijar observaciones y dictámenes (Pendiente / Aprobada / Rechazada) vinculados a la identidad del revisor sin alterar el dictamen original de las reglas ni del modelo.
   - Los módulos de **Dashboard** (métricas agregadas) y **Documentos** (catálogo local de guías) reflejan de forma coherente los datos generados.

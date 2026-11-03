@@ -1,66 +1,225 @@
-/* Modo oscuro para NexoCredit */
+/* ==========================================================================
+   Modo Oscuro NexoCredit — Interfaz Ejecutiva Dark Mode (Fintech Slate)
+   ========================================================================== */
 
-/* Variables y raíz en modo oscuro */
+/* Variables y raíz */
 [data-theme='oscuro'],
 [data-theme='dark'],
 .enterprise-app.dark-theme {
-  --ink: #f1f5f9;
-  --muted: #94a3b8;
+  --bg: #070b14;
+  --bg-sidebar: #0b1120;
+  --card: #0f172a;
+  --card-hover: #162036;
   --line: #1e293b;
-  --accent: #3b82f6;
-  --accent-dark: #2563eb;
-  background-color: #0b111e;
-  color: var(--ink);
+  --line-strong: #334155;
+  --ink: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --accent-subtle: rgba(56, 189, 248, 0.12);
+
+  background-color: var(--bg) !important;
+  color: var(--ink) !important;
+}
+
+body[data-theme='oscuro'],
+body[data-theme='dark'] {
+  background-color: #070b14 !important;
+  color: #f8fafc !important;
+}
+
+/* 1. Fondo de la Aplicación y Contenedores */
+.enterprise-app.dark-theme {
+  background-color: #070b14 !important;
 }
 
 .enterprise-app.dark-theme::before,
-[data-theme='oscuro'] .enterprise-app::before,
-[data-theme='dark'] .enterprise-app::before {
-  background-image: linear-gradient(rgba(11, 17, 30, 0.88), rgba(11, 17, 30, 0.94)), url('/images/nexocredit-background-v1.png');
+[data-theme='oscuro'] .enterprise-app::before {
+  /* Fondo oscuro uniforme con leve gradiente radial, sin imágenes ruidosas */
+  background:
+    radial-gradient(circle at 80% 8%, rgba(22, 64, 143, 0.25) 0%, transparent 40%),
+    radial-gradient(circle at 10% 90%, rgba(11, 93, 143, 0.2) 0%, transparent 40%),
+    #070b14 !important;
+  opacity: 1 !important;
 }
 
-/* Encabezado y Topbar */
+.enterprise-app.dark-theme .enterprise-main {
+  background:
+    radial-gradient(circle at 80% 8%, rgba(22, 64, 143, 0.22) 0%, transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(11, 93, 143, 0.18) 0%, transparent 45%),
+    #070b14 !important;
+  min-height: 100vh;
+}
+
+/* 2. Barra Lateral (Sidebar) Sólida, Nítida y sin transparencias raras */
+.enterprise-app.dark-theme .enterprise-sidebar {
+  background: #0b1120 !important;
+  border-right: 1px solid #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+.enterprise-app.dark-theme .enterprise-brand {
+  border-bottom: 1px solid #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.enterprise-app.dark-theme .enterprise-brand-icon {
+  background: #38bdf8 !important;
+  color: #04202e !important;
+  border-radius: 12px;
+}
+
+.enterprise-app.dark-theme .enterprise-brand small {
+  color: #94a3b8 !important;
+  letter-spacing: 0.12em;
+}
+
+.enterprise-app.dark-theme .enterprise-navigation a {
+  color: #94a3b8 !important;
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.enterprise-app.dark-theme .enterprise-navigation a:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #f8fafc !important;
+}
+
+.enterprise-app.dark-theme .enterprise-navigation a.active {
+  background: rgba(56, 189, 248, 0.12) !important;
+  border-left-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+  font-weight: 600 !important;
+}
+
+.enterprise-app.dark-theme .enterprise-navigation svg {
+  stroke: currentColor !important;
+}
+
+.enterprise-app.dark-theme .enterprise-sidebar-note {
+  color: #64748b !important;
+  border-top-color: #1e293b !important;
+}
+
+.enterprise-app.dark-theme .enterprise-sidebar-note p {
+  color: #64748b !important;
+}
+
+.enterprise-app.dark-theme .enterprise-dot {
+  background: #38bdf8 !important;
+}
+
+.enterprise-app.dark-theme .enterprise-profile {
+  border-top: 1px solid #1e293b !important;
+}
+
+.enterprise-app.dark-theme .enterprise-avatar {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #38bdf8 !important;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+.enterprise-app.dark-theme .enterprise-profile strong {
+  color: #f8fafc !important;
+}
+
+.enterprise-app.dark-theme .enterprise-profile small {
+  color: #94a3b8 !important;
+}
+
+/* 3. Encabezado y Topbar */
+.enterprise-app .enterprise-topbar {
+  padding-right: 40px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .enterprise-app.dark-theme .enterprise-topbar,
-[data-theme='oscuro'] .enterprise-topbar,
-[data-theme='dark'] .enterprise-topbar {
-  background: rgba(15, 23, 42, 0.88);
-  border-bottom-color: #1e293b;
+[data-theme='oscuro'] .enterprise-topbar {
+  background: transparent !important;
+  border-bottom: 1px solid #1e293b !important;
 }
 
 .enterprise-app.dark-theme .enterprise-topbar h1,
-[data-theme='oscuro'] .enterprise-topbar h1,
-[data-theme='dark'] .enterprise-topbar h1 {
-  color: #f8fafc;
+[data-theme='oscuro'] .enterprise-topbar h1 {
+  color: #f8fafc !important;
+  font-size: 26px;
+  font-weight: 800;
 }
 
 .enterprise-app.dark-theme .enterprise-topbar p,
-[data-theme='oscuro'] .enterprise-topbar p,
-[data-theme='dark'] .enterprise-topbar p {
-  color: #94a3b8;
+[data-theme='oscuro'] .enterprise-topbar p {
+  color: #94a3b8 !important;
+  font-size: 13px;
 }
 
-/* Barra de sesión en modo oscuro */
+/* 4. Barra de Sesión Superior */
 body[data-theme='oscuro'] .session-bar,
 body[data-theme='dark'] .session-bar,
 .dark-theme .session-bar {
-  color: #cbd5e1;
+  background: #0b1120 !important;
+  border: 1px solid #1e293b !important;
+  color: #94a3b8 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 10px !important;
 }
 
 body[data-theme='oscuro'] .session-bar button,
 body[data-theme='dark'] .session-bar button,
 .dark-theme .session-bar button {
-  background: #1e293b;
-  border-color: #334155;
-  color: #f1f5f9;
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #f8fafc !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
 }
 
 body[data-theme='oscuro'] .session-bar button:hover:not(:disabled),
 body[data-theme='dark'] .session-bar button:hover:not(:disabled),
 .dark-theme .session-bar button:hover:not(:disabled) {
-  background: #27374d;
+  background: #334155 !important;
+  color: #ffffff !important;
 }
 
-/* Tarjetas, paneles y contenedores */
+/* 5. Tarjeta Hero "Evalúa un escenario de riesgo" */
+.enterprise-app.dark-theme .home-hero {
+  background: linear-gradient(135deg, #0f274a 0%, #1e3a8a 60%, #172554 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 18px !important;
+}
+
+.enterprise-app.dark-theme .home-hero h2 {
+  color: #f8fafc !important;
+}
+
+.enterprise-app.dark-theme .home-hero p {
+  color: #bfdbfe !important;
+}
+
+.enterprise-app.dark-theme .home-new-evaluation {
+  background: #38bdf8 !important;
+  color: #04202e !important;
+  border: none !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35) !important;
+  transition: all 0.2s ease !important;
+}
+
+.enterprise-app.dark-theme .home-new-evaluation:hover {
+  background: #7dd3fc !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.5) !important;
+}
+
+/* 6. Tarjetas de Acceso Rápido y Paneles */
 .enterprise-app.dark-theme .card,
 .enterprise-app.dark-theme .finance-panel,
 .enterprise-app.dark-theme .enterprise-kpi,
@@ -74,244 +233,228 @@ body[data-theme='dark'] .session-bar button:hover:not(:disabled),
 .enterprise-app.dark-theme .dashboard-panel,
 .enterprise-app.dark-theme .credit-detail-card,
 .enterprise-app.dark-theme .credit-panel-card {
-  background: #121a2b;
-  border-color: #1e293b;
-  color: #f1f5f9;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  background: #0f172a !important;
+  border: 1px solid #1e293b !important;
+  color: #f8fafc !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease !important;
 }
 
-.enterprise-app.dark-theme .enterprise-kpi > strong {
-  color: #f8fafc;
+.enterprise-app.dark-theme .home-shortcut:hover,
+.enterprise-app.dark-theme .enterprise-kpi:hover {
+  border-color: #38bdf8 !important;
+  background: #141f38 !important;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.12) !important;
+  transform: translateY(-2px);
 }
 
-.enterprise-app.dark-theme .enterprise-kpi:hover,
-.enterprise-app.dark-theme .home-shortcut:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+.enterprise-app.dark-theme .home-shortcut h3,
+.enterprise-app.dark-theme .card h2,
+.enterprise-app.dark-theme .card h3 {
+  color: #f8fafc !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
 }
 
-.enterprise-app.dark-theme .home-shortcut h3 {
-  color: #f8fafc;
-}
-
-.enterprise-app.dark-theme .home-shortcut p {
-  color: #94a3b8;
+.enterprise-app.dark-theme .home-shortcut p,
+.enterprise-app.dark-theme .card p {
+  color: #94a3b8 !important;
+  font-size: 13px !important;
 }
 
 .enterprise-app.dark-theme .home-shortcut-icon {
-  background: #172554;
-  color: #60a5fa;
+  background: rgba(56, 189, 248, 0.12) !important;
+  color: #38bdf8 !important;
+  border-radius: 10px !important;
 }
 
-.enterprise-app.dark-theme .home-shortcut-open {
-  color: #60a5fa;
+.enterprise-app.dark-theme .home-shortcut-button {
+  color: #38bdf8 !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
 }
 
-/* Cabeceras de tarjetas */
-.enterprise-app.dark-theme .card-heading,
-.enterprise-app.dark-theme .history-heading {
-  background: linear-gradient(120deg, #162238, #121a2b);
-  border-bottom-color: #1e293b;
-  color: #f8fafc;
+.enterprise-app.dark-theme .home-shortcut-button:hover {
+  color: #7dd3fc !important;
 }
 
-.enterprise-app.dark-theme .card-heading h2,
-.enterprise-app.dark-theme .history h2,
-.enterprise-app.dark-theme h2 {
-  color: #f8fafc;
+/* 7. Cuadro de Aviso del Dashboard (Adiós a la franja blanca desentonada) */
+.enterprise-app.dark-theme .dashboard-scope {
+  background: #141f36 !important;
+  border: 1px solid #1e293b !important;
+  color: #94a3b8 !important;
+  border-radius: 10px !important;
 }
 
-.enterprise-app.dark-theme .enterprise-panel-tag {
-  background: #1e293b;
-  color: #94a3b8;
+.enterprise-app.dark-theme .dashboard-metrics small,
+.enterprise-app.dark-theme .enterprise-kpi small,
+.enterprise-app.dark-theme .enterprise-secondary-metrics small {
+  color: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
 }
 
-/* Entradas y controles de formulario */
+.enterprise-app.dark-theme .dashboard-metrics strong,
+.enterprise-app.dark-theme .enterprise-kpi strong,
+.enterprise-app.dark-theme .enterprise-secondary-metrics strong {
+  color: #f8fafc !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+}
+
+.enterprise-app.dark-theme .dashboard-filters input,
+.enterprise-app.dark-theme .dashboard-filters select {
+  background: #141f36 !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-radius: 8px !important;
+}
+
+/* 8. Formularios e Inputs */
 .enterprise-app.dark-theme input,
 .enterprise-app.dark-theme select,
 .enterprise-app.dark-theme textarea {
-  background: #0d1525;
-  border-color: #22324e;
-  color: #f8fafc;
+  background: #141f36 !important;
+  border: 1px solid #1e293b !important;
+  color: #f8fafc !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
 }
 
 .enterprise-app.dark-theme input:focus,
 .enterprise-app.dark-theme select:focus,
 .enterprise-app.dark-theme textarea:focus {
-  border-color: #3b82f6;
-  background: #0f182a;
-}
-
-.enterprise-app.dark-theme input::placeholder {
-  color: #64748b;
+  border-color: #38bdf8 !important;
+  background: #162440 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
 }
 
 .enterprise-app.dark-theme label {
-  color: #94a3b8;
+  color: #cbd5e1 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
 }
 
-.enterprise-app.dark-theme .form-divider {
-  border-color: #1e293b;
+.enterprise-app.dark-theme .help-text,
+.enterprise-app.dark-theme small {
+  color: #64748b !important;
 }
 
-.enterprise-app.dark-theme .enterprise-secondary-metrics {
-  border-top-color: #1e293b;
+/* 9. Botones */
+.enterprise-app.dark-theme button.primary,
+.enterprise-app.dark-theme button[type="submit"] {
+  background: #38bdf8 !important;
+  color: #04202e !important;
+  font-weight: 700 !important;
+  border: none !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3) !important;
+  transition: all 0.15s ease !important;
 }
 
-.enterprise-app.dark-theme .enterprise-secondary-metrics strong {
-  color: #f8fafc;
+.enterprise-app.dark-theme button.primary:hover:not(:disabled),
+.enterprise-app.dark-theme button[type="submit"]:hover:not(:disabled) {
+  background: #7dd3fc !important;
+  box-shadow: 0 6px 18px rgba(56, 189, 248, 0.45) !important;
 }
 
-.enterprise-app.dark-theme .enterprise-score-heading strong {
-  color: #f8fafc;
+.enterprise-app.dark-theme button.secondary,
+.enterprise-app.dark-theme .history-actions button {
+  background: #141f36 !important;
+  border: 1px solid #1e293b !important;
+  color: #e2e8f0 !important;
+  border-radius: 10px !important;
 }
 
-.enterprise-app.dark-theme .enterprise-score-track {
-  background: #1e293b;
+.enterprise-app.dark-theme button.secondary:hover:not(:disabled),
+.enterprise-app.dark-theme .history-actions button:hover:not(:disabled) {
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
 }
 
-/* Factores y avisos */
-.enterprise-app.dark-theme .factors li {
-  color: #cbd5e1;
+/* 10. Tablas e Historial */
+.enterprise-app.dark-theme table {
+  color: #e2e8f0 !important;
 }
 
+.enterprise-app.dark-theme th {
+  background: #0b1120 !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid #1e293b !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+.enterprise-app.dark-theme td {
+  border-bottom: 1px solid #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+.enterprise-app.dark-theme tr:hover td {
+  background: #141f36 !important;
+}
+
+.enterprise-app.dark-theme .history-table tr.active td {
+  background: rgba(56, 189, 248, 0.12) !important;
+}
+
+/* 11. Badges y Semáforo de Riesgo */
+.enterprise-app.dark-theme .risk-badge.bajo {
+  background: rgba(34, 197, 94, 0.15) !important;
+  color: #4ade80 !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  border-radius: 6px !important;
+}
+
+.enterprise-app.dark-theme .risk-badge.medio {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  border-radius: 6px !important;
+}
+
+.enterprise-app.dark-theme .risk-badge.alto {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  border-radius: 6px !important;
+}
+
+/* 12. Avisos y Banners Demo */
+.enterprise-app.dark-theme .demo-banner,
 .enterprise-app.dark-theme .notice {
-  background: #132240;
-  color: #e2e8f0;
-  border-left-color: #3b82f6;
+  background: #141f36 !important;
+  border: 1px solid #1e293b !important;
+  color: #94a3b8 !important;
+  border-radius: 10px !important;
 }
 
-.enterprise-app.dark-theme .demo-banner {
-  background: #132240;
-  border-color: #1e3a6a;
+.enterprise-app.dark-theme .evaluation-factors blockquote {
+  border-left: 3px solid #38bdf8 !important;
+  background: #141f36 !important;
+  color: #cbd5e1 !important;
 }
 
-.enterprise-app.dark-theme .demo-banner p,
-.enterprise-app.dark-theme .demo-banner strong {
-  color: #93c5fd;
-}
-
-.enterprise-app.dark-theme .enterprise-risk-disclaimer {
-  border-top-color: #1e293b;
-  color: #94a3b8;
-}
-
-.enterprise-app.dark-theme .enterprise-ai-panel {
-  background: #121a2b;
-  border-color: #1e293b;
-}
-
-.enterprise-app.dark-theme .enterprise-ai-panel > p[role='status'] {
-  background: #132240;
-  color: #93c5fd;
-}
-
-/* Tablas e historial */
-.enterprise-app.dark-theme .history th {
-  background: #0d1525;
-  color: #93c5fd;
-  border-bottom-color: #1e293b;
-}
-
-.enterprise-app.dark-theme .history td {
-  border-color: #1e293b;
-  color: #e2e8f0;
-}
-
-.enterprise-app.dark-theme .history tbody tr:nth-child(even) {
-  background: #152033;
-}
-
-.enterprise-app.dark-theme .history tbody tr:hover {
-  background: #1b283f;
-}
-
-.enterprise-app.dark-theme .history-pages {
-  border-top-color: #1e293b;
-  color: #94a3b8;
-}
-
-.enterprise-app.dark-theme .history-pages button {
-  background: #1e293b;
-  border-color: #334155;
-  color: #f1f5f9;
-}
-
-.enterprise-app.dark-theme .history-pages button:hover:not(:disabled) {
-  background: #27374d;
-}
-
-/* Detalle de evaluación */
-.enterprise-app.dark-theme .evaluation-detail {
-  background: #121a2b;
-  color: #f8fafc;
-}
-
-.enterprise-app.dark-theme .evaluation-detail select,
-.enterprise-app.dark-theme .evaluation-detail textarea {
-  background: #0d1525;
-  border-color: #22324e;
-  color: #f8fafc;
-}
-
-/* Dashboard, Métricas e Indicadores */
-.enterprise-app.dark-theme .dashboard-metric-card,
-.enterprise-app.dark-theme .dashboard-chart-card,
-.enterprise-app.dark-theme .kpi-card {
-  background: #121a2b;
-  border-color: #1e293b;
-  color: #f1f5f9;
-}
-
-.enterprise-app.dark-theme .dashboard-metric-card strong,
-.enterprise-app.dark-theme .dashboard-metrics strong {
-  color: #f8fafc;
-}
-
-/* Pie de página */
+/* 13. Pie de página */
 .enterprise-app.dark-theme footer {
-  border-top-color: #1e293b;
-  color: #64748b;
+  background: #0b1120 !important;
+  border: 1px solid #1e293b !important;
+  color: #64748b !important;
+  border-radius: 10px !important;
 }
 
-/* Botón alternador de tema (Theme Toggle) */
-.enterprise-theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #0a1a3a;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.enterprise-theme-toggle:hover {
-  background: #f1f5f9;
-  border-color: #94a3b8;
-}
-
-.enterprise-app.dark-theme .enterprise-theme-toggle {
-  background: #1e293b;
-  border-color: #334155;
-  color: #f8fafc;
-}
-
-.enterprise-app.dark-theme .enterprise-theme-toggle:hover {
-  background: #27374d;
-  border-color: #475569;
-}
-
-/* Botón alternador en sidebar */
+/* 14. Botón Alternador de Modo en Sidebar (Limpio y Elegante) */
 .enterprise-theme-sidebar {
-  margin: 14px 0 0;
-  padding: 12px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 14px 0 12px;
+  padding: 0;
 }
 
 .enterprise-theme-toggle-sidebar {
@@ -319,27 +462,33 @@ body[data-theme='dark'] .session-bar button:hover:not(:disabled),
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 9px 12px;
+  gap: 10px;
+  padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #cfe0ff;
+  background: #141f36;
+  border: 1px solid #1e293b;
+  color: #94a3b8;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.18s ease;
+  user-select: none;
 }
 
 .enterprise-theme-toggle-sidebar:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
+  background: #1a2947;
+  border-color: #38bdf8;
+  color: #38bdf8;
 }
 
-/* Alineación en Topbar */
-.enterprise-topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-left: auto;
+.enterprise-app.dark-theme .enterprise-theme-toggle-sidebar {
+  background: #141f36 !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+.enterprise-app.dark-theme .enterprise-theme-toggle-sidebar:hover {
+  background: #1a2947 !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
 }

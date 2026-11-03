@@ -1,5 +1,13 @@
 # Tecnologías obligatorias del proyecto
 
+## Implementación de Azure en la demo
+
+**Azure sí está implementado en la demo**: OpenAI, Machine Learning, AI Search y acceso Microsoft Entra conservan su código y evidencias reales del 04/10/2026. La alternativa local no los elimina. Los campos para sus keys se mantienen en el .env privado de Docker y en las plantillas sin secretos. [Implementación Azure y dónde colocar las llaves](docs/manuales/AZURE_IMPLEMENTADO_Y_CONFIGURACION.md). Esto no afirma vigencia de la suscripción o conectividad cloud actual.
+
+## Laboratorio UCI / Azure ML
+
+Formulario académico separado de 19 variables UCI y cliente remoto FastAPI conectados al endpoint Azure existente. La consulta real autenticada del 04/10/2026 devolvió una clase booleana; el aviso distingue espera, éxito y fallo del último intento. No persiste el escenario UCI, no carga el pickle en el backend y no convierte MXN a NTD. El formulario principal integra el modelo mexicano ENIF 2024 y reglas demo v2 para comparación; este laboratorio permanece como espacio académico separado para el dataset UCI de 19 variables. La etiqueta modelo_configurado no verifica la versión remota. Una lectura independiente de metadatos Azure ML Studio comprobó ese día el modelo registrado servido plurione-uci-voting-candidato:1, aprovisionamiento correcto y tráfico directo 100 %. La comparación binaria con el artefacto local y la aptitud para población real siguen pendientes. Consultar [contrato, configuración y límites](backend/app/integraciones/prediccion_azure_ml/README.md).
+
 ## Piloto empresarial en sombra — 15/10/2026
 
 Alcance vigente solicitado: prueba empresarial controlada. Python/scikit-learn comparan tres algoritmos con validación anidada y calibración interna; FastAPI expone estado y métricas con autenticación; PostgreSQL conserva estos metadatos con el resultado; React muestra gobernanza, comparación y límites. Validador offline preparado para un historial futuro autorizado. Sin nuevas llamadas Azure, borrado de keys o modificación del modelo servido: no se demostró una mejora consistente ni hay datos/validación empresarial. Las trece tecnologías obligatorias se mantienen. [Protocolo, resultados y pendientes](docs/desarrollo/PILOTO_EMPRESARIAL.md).

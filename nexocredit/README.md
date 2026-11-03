@@ -1,82 +1,51 @@
 # NexoCredit — Sistema Inteligente de Análisis de Riesgo Crediticio
 
-Alcance vigente: **piloto empresarial en sombra**, con pruebas controladas, no motor crediticio productivo. Se compararon tres modelos mediante validación anidada; no se demostró una mejora consistente y no se promocionó ningún candidato. Aún falta un historial autorizado de la empresa y validación temporal/operativa. [Protocolo, resultados, controles y contrato de datos](docs/desarrollo/PILOTO_EMPRESARIAL.md). Los apartados académicos anteriores se conservan como historial fechado en [BITACORA.md](docs/BITACORA.md).
+NexoCredit es un sistema local de análisis de escenarios de riesgo crediticio. Integra React, FastAPI, PostgreSQL, Docker, una comparación por reglas y un modelo experimental ENIF mostrado como segunda opinión, además de historial, revisión humana, pagos ficticios e indicadores financieros.
 
-Incremento local: el formulario principal incorpora un [modelo mexicano entrenado con ENIF 2024](inteligencia_artificial/prediccion_mexico/README.md), con resultado persistido, métricas reales y capacidad limitada explícita. No depende de Ollama/Azure, no reemplaza los riesgos históricos por reglas ni constituye un predictor validado de impagos futuros. [Pruebas y límites de este incremento](docs/evidencias/2026-10-15/modelo-mexico-enif.md).
-
-El código se organiza en `nexocredit/`. Esta instalación conserva Compose `plurione-docker` y su volumen para no perder datos; la copia pública de entrega usa `nexocredit-demo` y no comparte su configuración privada. Empezar por el [README de la raíz](../README.md), con operación, recorrido de cuatro pasos, procedencia y declaración de uso de IA. El historial detallado de cambios se encuentra en [BITACORA.md](docs/BITACORA.md).
-
-NexoCredit es una marca demostrativa, no una razón social ni una aprobación empresarial. Se conservan los identificadores de esquema/modelos y los recursos Azure históricos; cambiar el nombre del proyecto Compose no migra su volumen ni su configuración privada.
+El código se organiza en 
+exocredit/. Esta instalación conserva Compose plurione-docker y su volumen para no perder datos; la copia pública de entrega usa 
+exocredit-demo y no comparte su configuración privada. Empezar por el [README de la raíz](../README.md), con operación, recorrido de cuatro pasos, procedencia y declaración de uso de IA. El historial detallado de cambios se encuentra en [BITACORA.md](docs/BITACORA.md).
 
 Accesos de Windows: [operacion](operacion/README.md). Documentación: [índice](docs/README.md), [PRD](docs/producto/PRD_NEXOCREDIT.md) y [MVP](docs/producto/MVP_NEXOCREDIT.md). Para una vista limpia en VS Code, abrir [NexoCredit.code-workspace](../NexoCredit.code-workspace) desde la raíz exterior.
 
 ## Tecnologías obligatorias
 
-Python, FastAPI, React.js, Azure OpenAI Service, Azure Machine Learning, Azure AI Search, PostgreSQL, Power BI, Docker, GitHub Actions, Microsoft Entra ID, APIs financieras y Scrum. Consultar [función, ubicación y estado de cada tecnología](REQUISITOS_TECNOLOGICOS.md). El uso técnico de estas herramientas no acredita producción ni ejecución de Scrum por sí solo.
-
-**Azure sí está implementado en la demo**: OpenAI, Machine Learning, AI Search y acceso Microsoft Entra conservan su código y evidencias reales del 04/10/2026. La alternativa local no los elimina. Los campos para sus keys se mantienen en el `.env` privado de Docker y en las plantillas sin secretos. [Implementación Azure y dónde colocar las llaves](docs/manuales/AZURE_IMPLEMENTADO_Y_CONFIGURACION.md). Esto no afirma vigencia de la suscripción o conectividad cloud actual.
-
-Para el historial fechado de incrementos, revisiones y evidencias históricas, consultar [BITACORA.md](docs/BITACORA.md).
+Python, FastAPI, React.js, Azure OpenAI Service, Azure Machine Learning, Azure AI Search, PostgreSQL, Power BI, Docker, GitHub Actions, Microsoft Entra ID, APIs financieras y Scrum. Consultar [función, ubicación y estado de cada tecnología](REQUISITOS_TECNOLOGICOS.md). Para el historial fechado de incrementos y cambios, consultar [BITACORA.md](docs/BITACORA.md).
 
 ## Arranque con Docker
 
 Con Docker Desktop abierto, ejecutar desde la carpeta interior:
 
-```powershell
+`powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 iniciar
-```
+`
 
-Abrir [http://localhost:8080/](http://localhost:8080/) e iniciar sesión con una cuenta Microsoft autorizada, o con una cuenta local si está habilitada y creada. Ver [creación de cuenta local](docs/manuales/ACCESO_LOCAL_Y_PROVEEDORES.md#crear-la-primera-cuenta-local). La configuración Entra actual requiere exactamente ese origen, no 127.0.0.1 ni otro puerto. Incluye frontend, backend, PostgreSQL y migraciones automáticas. Los datos quedan en un volumen Docker separado de la base local; no se migran registros entre ambos entornos. Para detener conservando datos, cambiar `iniciar` por `detener`. Consultar [operación de Docker](infraestructura/contenedores_docker/README.md).
+Abrir [http://localhost:8080/](http://localhost:8080/) e iniciar sesión con una cuenta Microsoft autorizada, o con una cuenta local si está habilitada y creada. Ver [creación de cuenta local](docs/manuales/ACCESO_LOCAL_Y_PROVEEDORES.md#crear-la-primera-cuenta-local). Incluye frontend, backend, PostgreSQL y migraciones automáticas en un volumen persistente. Para abrir sin reconstruir: .\scripts\docker.ps1 abrir. Para detener conservando datos: .\scripts\docker.ps1 detener. Consultar [operación de Docker](infraestructura/contenedores_docker/README.md).
 
-## PostgreSQL local y arranque sin Docker
+## Ejecución local en Windows (sin Docker)
 
-Para abrir una instalación Docker ya construida sin volver a descargar ni compilar, usar `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 abrir`. Espera los servicios y abre el navegador. Requiere Docker Desktop activo e imágenes existentes; después de modificar código, ejecutar `iniciar` para reconstruir.
+Para desarrollo local, preparar PostgreSQL una sola vez (escucha en 127.0.0.1:55432, datos en .local/postgresql/datos):
 
-Desde la carpeta interior, preparar la base una sola vez tras instalar backend/requirements.txt:
-
-Esta alternativa sirve para desarrollo, no es el flujo autenticado probado en Docker. El acceso Entra publicado por la API está fijado a localhost:8080; usar 5173 u otro origen requiere una configuración de registros y aplicación acorde. No desactivar autenticación para probarla.
-
-```powershell
+`powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\postgresql-local.ps1 preparar
-```
+`
 
-Iniciar backend e interfaz en terminales separadas:
+Iniciar backend (http://127.0.0.1:8000, docs en /docs) e interfaz (http://127.0.0.1:5173) en terminales separadas:
 
-```powershell
+`powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\iniciar-backend.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\iniciar-frontend.ps1
-```
+`
 
-El lanzador del backend inicia PostgreSQL si ya está preparado. La base escucha solo en 127.0.0.1:55432; no se instala un servicio de Windows. Los datos quedan en `.local/postgresql/datos` (no borrar) y la configuración privada en `backend/.env.postgresql`. Al evaluar se confirma el guardado y se actualiza el historial. Para detener solo la base: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\postgresql-local.ps1 detener`.
-
-Sin DATABASE_URL el formulario indica que no se guardó; si la base está configurada pero falla, se devuelve un error. Ver backend/app/persistencia_postgresql/README.md.
-
-## Ejecutar en Windows
-
-Desde la carpeta interior `nexocredit`, que contiene `backend`, `frontend` y `scripts`:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt
-.\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000 --no-proxy-headers
-```
-
-En otra terminal:
-
-```powershell
-cd frontend
-npm ci
-npm run dev -- --host 127.0.0.1
-```
-
-Abrir http://127.0.0.1:5173. Documentación de API: http://127.0.0.1:8000/docs.
-La interfaz admite VITE_API_URL; consultar frontend/.env.example. Reiniciar Vite tras cambiar variables. CORS_ORIGINS en el backend acepta orígenes separados por comas; por defecto solo localhost y 127.0.0.1 en puerto 5173.
+O manualmente: instalar ackend/requirements.txt en un .venv y ejecutar uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000; en frontend ejecutar 
+pm ci y 
+pm run dev -- --host 127.0.0.1.
 
 ## Verificación
 
-Las mismas pruebas que ejecuta [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). La suite completa aislada se ejecuta con `operacion/pruebas/Probar programacion.cmd`: PostgreSQL temporal sin datos de trabajo y limpieza protegida de su propio contenedor.
+Las mismas pruebas que ejecuta [.github/workflows/ci.yml](../.github/workflows/ci.yml). La suite completa aislada se ejecuta con operacion/pruebas/Probar programacion.cmd: PostgreSQL temporal sin datos de trabajo y limpieza protegida de su propio contenedor.
 
-```powershell
+`powershell
 # Backend — 247 pruebas esperadas (API, PostgreSQL, integraciones, validación)
 python -m unittest discover -s backend/tests -v
 
@@ -87,19 +56,17 @@ npm test
 # Lint y compilación
 npm run lint
 npm run build
-```
+`
 
-`operacion/respaldos/Respaldar PostgreSQL.cmd` y `operacion/respaldos/Probar restauracion PostgreSQL.cmd` permiten el respaldo manual privado y un ensayo aislado; el ensayo de doce tablas pasó el 15/10/2026. El dump no está cifrado ni incluye roles globales/ACL. No restaura sobre la base original ni acredita recuperación productiva completa.
-
-Ejemplo ficticio: AAAA010101AA1, ingreso 30000, gastos 10000, score 700. Resultado esperado: margen 20000, riesgo preliminar Bajo. Es una regla de demostración, no una probabilidad calibrada.
+operacion/respaldos/Respaldar PostgreSQL.cmd y operacion/respaldos/Probar restauracion PostgreSQL.cmd permiten el respaldo manual privado y un ensayo aislado; el ensayo de doce tablas pasó el 15/10/2026.
 
 ## Entregables
 
-Empezar por [ENTREGA_DEMO.md](docs/entrega/ENTREGA_DEMO.md): alcance comprobado, evidencias, guion de revisión y pendientes. Consultar [plan](docs/planificacion/PLAN_PROYECTO.md), [manual](docs/manuales/OPERACION.md), [QA](docs/calidad/QA.md), [índice de evidencias](docs/evidencias/README.md), [BITACORA.md](docs/BITACORA.md) y [backlog de cierre](gestion_proyecto/scrum/BACKLOG_CIERRE.md). El cronograma de 500 horas es propuesto, no horas acreditadas; no hay aceptación del asesor ni sprints certificados.
+Empezar por [ENTREGA_DEMO.md](docs/entrega/ENTREGA_DEMO.md): alcance comprobado, evidencias, guion de revisión y pendientes. Consultar [plan](docs/planificacion/PLAN_PROYECTO.md), [manual](docs/manuales/OPERACION.md), [QA](docs/calidad/QA.md), [índice de evidencias](docs/evidencias/README.md), [BITACORA.md](docs/BITACORA.md) y [backlog de cierre](gestion_proyecto/scrum/BACKLOG_CIERRE.md).
 
 ## Organización de carpetas
 
-```text
+`	ext
 nexocredit/                                Raíz del proyecto (carpeta interior)
 ├── backend/                                Python + FastAPI
 │   ├── app/
@@ -131,7 +98,7 @@ nexocredit/                                Raíz del proyecto (carpeta interior)
 │       ├── azure_openai/                  Visualización de explicaciones IA
 │       ├── azure_search/                  Búsqueda y visualización de guías
 │       ├── interfaz/                      Componentes comunes, navegación y diseño
-│       └── styles/                        Estilos compartidos
+│       └── styles/                        Estilos compartidos y modo oscuro
 ├── inteligencia_artificial/
 │   ├── prediccion_azure_ml/                Candidato UCI evaluado en Azure ML
 │   ├── prediccion_local/                   Baseline scikit-learn UCI reproducible
@@ -157,10 +124,6 @@ nexocredit/                                Raíz del proyecto (carpeta interior)
 │   └── respaldos/                         Respaldo y ensayo de restauración
 ├── scripts/                               Implementación Python/PowerShell y pruebas
 └── REQUISITOS_TECNOLOGICOS.md              Tecnologías obligatorias y estado
-```
+`
 
-El workflow está en `.github/workflows/ci.yml` de la raíz Git exterior, no dentro de esta carpeta. Las carpetas generadas, .local, .venv, .venv-roto y el archivo histórico se ocultan en VS Code; siguen en disco. No se movieron datos, secretos, entornos virtuales o proyectos Power BI privados. Ver el [mapa del espacio de trabajo](../README.md).
-
-## Laboratorio UCI / Azure ML
-
-Formulario académico separado de 19 variables UCI y cliente remoto FastAPI conectados al endpoint Azure existente. La consulta real autenticada del 04/10/2026 devolvió una clase booleana; el aviso distingue espera, éxito y fallo del último intento. No persiste el escenario UCI, no carga el pickle en el backend y no convierte MXN a NTD. El formulario principal integra el modelo mexicano ENIF 2024 y reglas demo v2 para comparación; este laboratorio permanece como espacio académico separado para el dataset UCI de 19 variables. La etiqueta `modelo_configurado` no verifica la versión remota. Una lectura independiente de metadatos Azure ML Studio comprobó ese día el modelo registrado servido `plurione-uci-voting-candidato:1`, aprovisionamiento correcto y tráfico directo 100 %. La comparación binaria con el artefacto local y la aptitud para población real siguen pendientes. Consultar [contrato, configuración y límites](backend/app/integraciones/prediccion_azure_ml/README.md).
+El workflow está en .github/workflows/ci.yml de la raíz Git exterior. Ver el [mapa del espacio de trabajo](../README.md).
