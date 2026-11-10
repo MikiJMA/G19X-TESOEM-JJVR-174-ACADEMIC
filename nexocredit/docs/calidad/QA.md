@@ -1,6 +1,8 @@
 # Reporte QA — prototipo 0.1
 
-## Recorrido funcional de 4 pasos — instalación de trabajo (03/11/2026)
+## Recorrido funcional de 4 pasos — instalación de trabajo (03/11/2026, commit 15e9497)
+
+Instalación de trabajo activa sobre Compose `plurione-docker`, puertos 8080/8000/55433, con historial persistente conservado. Capturas en `../evidencias/2026-11-03/`.
 
 A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que los servicios Docker y PostgreSQL levantaban y respondían HTTP 200 sin probar el flujo de negocio), este ensayo ejecuta y valida el **recorrido funcional completo de cuatro pasos** sobre la instalación de trabajo activa del 03/11/2026 según el guion del [README de la raíz](../../README.md#recorrido-para-el-revisor--4-pasos). Se documentan las entradas, las respuestas técnicas de la API, los valores exactos visibles en pantalla y las capturas de pantalla de cada etapa en su entorno con historial persistente (commit `15e9497`).
 
