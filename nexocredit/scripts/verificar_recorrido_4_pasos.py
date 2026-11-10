@@ -52,11 +52,11 @@ def ejecutar_recorrido():
     print("--- PASO 2: Evaluación con modelo mexicano ENIF ---")
     perfil_data = {
         "ingreso_laboral": 12000.0,
-        "periodicidad": 1,        # 1: Mes
+        "periodicidad": 3,        # 3: Mes
         "ingreso_variable": 1,    # 1: Fijo
         "presupuesto": 1,         # 1: Sí
         "gastos_cubiertos": 1,    # 1: Sí
-        "ahorro_emergencia": 3,   # 3: Tres meses a menos de seis meses
+        "ahorro_emergencia": 4,   # 4: Tres meses a menos de seis meses
         "creditos": ["bancaria"] # Tarjeta bancaria
     }
     perfil = PerfilENIF(**perfil_data)

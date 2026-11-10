@@ -1,8 +1,8 @@
 # Reporte QA — prototipo 0.1
 
-## Recorrido funcional de 4 pasos — instalación limpia (31/10/2026)
+## Recorrido funcional de 4 pasos — instalación de trabajo (03/11/2026)
 
-A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que los servicios Docker y PostgreSQL levantaban y respondían HTTP 200 sin probar el flujo de negocio), este ensayo ejecuta y valida el **recorrido funcional completo de cuatro pasos** sobre una instalación limpia según el guion del [README de la raíz](../../README.md#recorrido-para-el-revisor--4-pasos), documentando las entradas, las respuestas técnicas de la API, los valores exactos visibles en pantalla y las capturas de pantalla de cada etapa (commit `15e9497`).
+A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que los servicios Docker y PostgreSQL levantaban y respondían HTTP 200 sin probar el flujo de negocio), este ensayo ejecuta y valida el **recorrido funcional completo de cuatro pasos** sobre la instalación de trabajo activa del 03/11/2026 según el guion del [README de la raíz](../../README.md#recorrido-para-el-revisor--4-pasos). Se documentan las entradas, las respuestas técnicas de la API, los valores exactos visibles en pantalla y las capturas de pantalla de cada etapa en su entorno con historial persistente (commit `15e9497`).
 
 ### Paso 1: Evaluación de riesgo sólo con reglas en el formulario principal
 
@@ -13,7 +13,7 @@ A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que lo
   - Nivel de riesgo preliminar resultante: **Bajo** (`reglas-demo-v2`).
   - Modelo ENIF: No incluido; la interfaz anuncia explícitamente *«Sin modelo mexicano: no se capturó un perfil ENIF. Este resultado es sólo de reglas; no se transformaron ni inventaron datos»*.
 - **Captura de pantalla**:
-  ![Paso 1 - Riesgo por reglas](../evidencias/2026-10-31/paso1_riesgo_reglas.png)
+  ![Paso 1 - Riesgo por reglas](../evidencias/2026-11-03/paso1_riesgo_reglas.png)
 
 ### Paso 2: Evaluación con perfil socioeconómico ENIF / Modelo México
 
@@ -31,7 +31,7 @@ A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que lo
   - Capacidad limitada explícita: predecir siempre «sin atraso» logra **77%** (`76.63%`) de exactitud.
   - Reglas demo v2 simultáneas: Riesgo **Bajo** (margen $20,000 y score 900).
 - **Captura de pantalla**:
-  ![Paso 2 - Resultado ENIF](../evidencias/2026-10-31/paso2_resultado_enif.png)
+  ![Paso 2 - Resultado ENIF](../evidencias/2026-11-03/paso2_resultado_enif.png)
 
 ### Paso 3: Modificación del score a 200 y demostración de independencia
 
@@ -42,7 +42,7 @@ A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que lo
   - Criterio de severidad estricto: El riesgo final adopta la categoría más severa de ambas (el margen nunca mejora un score desfavorable) $\rightarrow$ Nivel de riesgo por reglas escala inmediatamente a **Alto** (`reglas-demo-v2`).
   - Modelo ENIF: **Permanece idéntico** (**11%** frente al umbral de **18%**, *Perfil sin asociación detectada con atrasos reportados*). Se comprueba técnicamente la total independencia entre el modelo socioeconómico ENIF (que no consume el score tradicional) y las reglas de negocio demo.
 - **Captura de pantalla**:
-  ![Paso 3 - Cambio con score 200](../evidencias/2026-10-31/paso3_cambio_score_200.png)
+  ![Paso 3 - Cambio con score 200](../evidencias/2026-11-03/paso3_cambio_score_200.png)
 
 ### Paso 4: Visualización del registro persistido en el Historial de evaluaciones
 
@@ -52,7 +52,7 @@ A diferencia del ensayo de arranque del 23-oct (que comprobó únicamente que lo
   - El módulo de **Revisión manual** permite fijar observaciones y dictámenes (Pendiente / Aprobada / Rechazada) vinculados a la identidad del revisor sin alterar el dictamen original de las reglas ni del modelo.
   - Los módulos de **Dashboard** (métricas agregadas) y **Documentos** (catálogo local de guías) reflejan de forma coherente los datos generados.
 - **Captura de pantalla**:
-  ![Paso 4 - Historial de evaluaciones](../evidencias/2026-10-31/paso4_historial.png)
+  ![Paso 4 - Historial de evaluaciones](../evidencias/2026-11-03/paso4_historial.png)
 
 ---
 

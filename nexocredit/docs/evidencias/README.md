@@ -1,4 +1,8 @@
-# Índice de evidencias
+﻿# Índice de evidencias
+
+## Recorrido funcional de 4 pasos e interfaz en modo oscuro — 03/11/2026
+
+[Capturas del recorrido funcional de 4 pasos en la instalación de trabajo](2026-11-03/): cuatro capturas correspondientes al paso 1 (riesgo por reglas con score 900 y margen 20k), paso 2 (evaluación con modelo socioeconómico ENIF 2024), paso 3 (score 200 y demostración de independencia) y paso 4 (historial persistido de evaluaciones en PostgreSQL con modo oscuro).
 
 ## Actualización de instalación y cierre local — 15/10/2026
 

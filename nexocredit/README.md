@@ -2,9 +2,7 @@
 
 NexoCredit es un sistema local de análisis de escenarios de riesgo crediticio. Integra React, FastAPI, PostgreSQL, Docker, una comparación por reglas y un modelo experimental ENIF mostrado como segunda opinión, además de historial, revisión humana, pagos ficticios e indicadores financieros.
 
-El código se organiza en 
-exocredit/. Esta instalación conserva Compose plurione-docker y su volumen para no perder datos; la copia pública de entrega usa 
-exocredit-demo y no comparte su configuración privada. Empezar por el [README de la raíz](../README.md), con operación, recorrido de cuatro pasos, procedencia y declaración de uso de IA. El historial detallado de cambios se encuentra en [BITACORA.md](docs/BITACORA.md).
+El código se organiza en `nexocredit/`. Empezar por el [README de la raíz](../README.md), con operación, recorrido de cuatro pasos, procedencia y declaración de uso de IA. El historial detallado de cambios se encuentra en [BITACORA.md](docs/BITACORA.md).
 
 Accesos de Windows: [operacion](operacion/README.md). Documentación: [índice](docs/README.md), [PRD](docs/producto/PRD_NEXOCREDIT.md) y [MVP](docs/producto/MVP_NEXOCREDIT.md). Para una vista limpia en VS Code, abrir [NexoCredit.code-workspace](../NexoCredit.code-workspace) desde la raíz exterior.
 
@@ -16,36 +14,34 @@ Python, FastAPI, React.js, Azure OpenAI Service, Azure Machine Learning, Azure A
 
 Con Docker Desktop abierto, ejecutar desde la carpeta interior:
 
-`powershell
+```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\docker.ps1 iniciar
-`
+```
 
-Abrir [http://localhost:8080/](http://localhost:8080/) e iniciar sesión con una cuenta Microsoft autorizada, o con una cuenta local si está habilitada y creada. Ver [creación de cuenta local](docs/manuales/ACCESO_LOCAL_Y_PROVEEDORES.md#crear-la-primera-cuenta-local). Incluye frontend, backend, PostgreSQL y migraciones automáticas en un volumen persistente. Para abrir sin reconstruir: .\scripts\docker.ps1 abrir. Para detener conservando datos: .\scripts\docker.ps1 detener. Consultar [operación de Docker](infraestructura/contenedores_docker/README.md).
+Abrir [http://localhost:8080/](http://localhost:8080/) e iniciar sesión con una cuenta Microsoft autorizada, o con una cuenta local si está habilitada y creada. Ver [creación de cuenta local](docs/manuales/ACCESO_LOCAL_Y_PROVEEDORES.md#crear-la-primera-cuenta-local). Incluye frontend, backend, PostgreSQL y migraciones automáticas en un volumen persistente. Para abrir sin reconstruir: `.\scripts\docker.ps1 abrir`. Para detener conservando datos: `.\scripts\docker.ps1 detener`. Consultar [operación de Docker](infraestructura/contenedores_docker/README.md).
 
 ## Ejecución local en Windows (sin Docker)
 
-Para desarrollo local, preparar PostgreSQL una sola vez (escucha en 127.0.0.1:55432, datos en .local/postgresql/datos):
+Para desarrollo local, preparar PostgreSQL una sola vez (escucha en 127.0.0.1:55432, datos en `.local/postgresql/datos`):
 
-`powershell
+```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\postgresql-local.ps1 preparar
-`
+```
 
-Iniciar backend (http://127.0.0.1:8000, docs en /docs) e interfaz (http://127.0.0.1:5173) en terminales separadas:
+Iniciar backend (http://127.0.0.1:8000, docs en `/docs`) e interfaz (http://127.0.0.1:5173) en terminales separadas:
 
-`powershell
+```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\iniciar-backend.ps1
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\iniciar-frontend.ps1
-`
+```
 
-O manualmente: instalar ackend/requirements.txt en un .venv y ejecutar uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000; en frontend ejecutar 
-pm ci y 
-pm run dev -- --host 127.0.0.1.
+O manualmente: instalar `backend/requirements.txt` en un `.venv` y ejecutar `uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000`; en frontend ejecutar `npm ci` y `npm run dev -- --host 127.0.0.1`.
 
 ## Verificación
 
-Las mismas pruebas que ejecuta [.github/workflows/ci.yml](../.github/workflows/ci.yml). La suite completa aislada se ejecuta con operacion/pruebas/Probar programacion.cmd: PostgreSQL temporal sin datos de trabajo y limpieza protegida de su propio contenedor.
+Las mismas pruebas que ejecuta [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). La suite completa aislada se ejecuta con `operacion/pruebas/Probar programacion.cmd`: PostgreSQL temporal sin datos de trabajo y limpieza protegida de su propio contenedor.
 
-`powershell
+```powershell
 # Backend — 247 pruebas esperadas (API, PostgreSQL, integraciones, validación)
 python -m unittest discover -s backend/tests -v
 
@@ -56,9 +52,9 @@ npm test
 # Lint y compilación
 npm run lint
 npm run build
-`
+```
 
-operacion/respaldos/Respaldar PostgreSQL.cmd y operacion/respaldos/Probar restauracion PostgreSQL.cmd permiten el respaldo manual privado y un ensayo aislado; el ensayo de doce tablas pasó el 15/10/2026.
+`operacion/respaldos/Respaldar PostgreSQL.cmd` y `operacion/respaldos/Probar restauracion PostgreSQL.cmd` permiten el respaldo manual privado y un ensayo aislado; el ensayo de doce tablas pasó el 15/10/2026.
 
 ## Entregables
 
@@ -66,7 +62,7 @@ Empezar por [ENTREGA_DEMO.md](docs/entrega/ENTREGA_DEMO.md): alcance comprobado,
 
 ## Organización de carpetas
 
-`	ext
+```text
 nexocredit/                                Raíz del proyecto (carpeta interior)
 ├── backend/                                Python + FastAPI
 │   ├── app/
@@ -124,6 +120,6 @@ nexocredit/                                Raíz del proyecto (carpeta interior)
 │   └── respaldos/                         Respaldo y ensayo de restauración
 ├── scripts/                               Implementación Python/PowerShell y pruebas
 └── REQUISITOS_TECNOLOGICOS.md              Tecnologías obligatorias y estado
-`
+```
 
-El workflow está en .github/workflows/ci.yml de la raíz Git exterior. Ver el [mapa del espacio de trabajo](../README.md).
+El workflow está en `.github/workflows/ci.yml` de la raíz Git exterior. Ver el [mapa del espacio de trabajo](../README.md).
